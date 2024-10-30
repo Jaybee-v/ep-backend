@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: equita-planner-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8888:8888'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://user:password@postgres:5432/equita_planner
+      - NODE_ENV=development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: sh -c "npm install && npx prisma generate && npx prisma migrate dev --name init && npm run start:dev"
+
+  postgres:
+    container_name: equita-planner-postgres
+    image: postgres:15
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=equita_planner
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U user -d equita_planner']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
