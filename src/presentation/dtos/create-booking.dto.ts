@@ -17,5 +17,11 @@ export class CreateBookingDto {
   date: Date;
 
   @IsString()
+  start: string;
+
+  @IsString()
+  end: string;
+
+  @IsString()
   status: string;
 }
