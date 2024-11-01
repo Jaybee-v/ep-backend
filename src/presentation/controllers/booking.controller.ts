@@ -31,6 +31,8 @@ export class BookingController {
         createBookingDto.description,
         createBookingDto.location,
         createBookingDto.date,
+        createBookingDto.start,
+        createBookingDto.end,
         createBookingDto.status,
       );
 
@@ -50,10 +52,12 @@ export class BookingController {
 
   @Get(':id')
   async getBookingById(
-    @Param('id') id: number,
+    @Param('id') id: string,
   ): Promise<{ status: number; data: any }> {
     try {
-      const booking = await this.getBookingByIdHandler.execute({ id });
+      const booking = await this.getBookingByIdHandler.execute({
+        id: parseInt(id),
+      });
       return { status: 200, data: booking };
     } catch (error) {
       console.log('ERROR', error);

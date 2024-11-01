@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { CreateUserCommand } from 'src/application/user/commands/create-user/create-user.command';
@@ -14,6 +15,7 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserAlreadyExistsException } from 'src/domain/exceptions/user.exceptions';
 import { User } from 'src/domain/entities/user.entity';
 import { GetUserByIdHandler } from 'src/application/user/queries/get-user-by-id/get-user-by-id.handler';
+import { PatchUserHandler } from 'src/application/user/commands/patch-user/patch-user.handler';
 
 @Controller('users')
 export class UserController {
@@ -21,6 +23,7 @@ export class UserController {
     private readonly createUserHandler: CreateUserHandler,
     private readonly getUserByEmailHandler: GetUserByEmailHandler,
     private readonly getUserByIdHandler: GetUserByIdHandler,
+    private readonly patchUserHandler: PatchUserHandler,
   ) {}
 
   @Post()
@@ -74,5 +77,17 @@ export class UserController {
     }
 
     return user;
+  }
+
+  @Patch(':id')
+  async patchUser(
+    @Param('id') id: string,
+    @Body() body: { key: string; value: string | boolean },
+  ): Promise<void> {
+    await this.patchUserHandler.execute({
+      id,
+      key: body.key,
+      value: body.value,
+    });
   }
 }

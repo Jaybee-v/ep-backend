@@ -5,9 +5,13 @@ export class UserMapper {
     const user = new User(
       raw.id,
       raw.email,
+      raw.emailVerified,
       raw.name,
+      raw.familyName,
       '********',
       raw.role,
+      raw.stableId,
+      raw.instructorId,
       raw.createdAt,
       raw.updatedAt,
     );
@@ -17,9 +21,13 @@ export class UserMapper {
   static toPrisma(user: User): any {
     return {
       email: user.getEmail(),
+      emailVerified: user.getEmailVerified(),
       name: user.getName(),
+      familyName: user.getFamilyName(),
       password: user.getPassword(),
       role: user.getRole(),
+      stableId: user.getStableId(),
+      instructorId: user.getStableId(),
     };
   }
 }

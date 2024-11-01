@@ -17,6 +17,8 @@ export class CreateBookingHandler {
       description: command.description,
       location: command.location,
       date: command.date,
+      start: command.start,
+      end: command.end,
       status: command.status,
     });
 

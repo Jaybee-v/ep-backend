@@ -6,6 +6,8 @@ export class Booking {
     private readonly description: string,
     private readonly location: string,
     private readonly date: Date,
+    private readonly start: string,
+    private readonly end: string,
     private readonly status: string,
     private readonly createdAt: Date,
     private readonly updatedAt: Date,
@@ -35,6 +37,14 @@ export class Booking {
     return this.date;
   }
 
+  public getStart(): string {
+    return this.start;
+  }
+
+  public getEnd(): string {
+    return this.end;
+  }
+
   public getStatus(): string {
     return this.status;
   }
@@ -53,6 +63,8 @@ export class Booking {
     description: string;
     location: string;
     date: Date;
+    start: string;
+    end: string;
     status: string;
   }): Booking {
     return new Booking(
@@ -62,6 +74,8 @@ export class Booking {
       params.description,
       params.location,
       params.date,
+      params.start,
+      params.end,
       params.status,
       new Date(),
       new Date(),
