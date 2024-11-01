@@ -9,7 +9,11 @@ export class PatchUserHandler {
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(command: PatchUserCommand): Promise<void> {
-    await this.userRepository.patchUser(command.key, command.value, command.id);
+  async execute(command: PatchUserCommand): Promise<boolean> {
+    return await this.userRepository.patchUser(
+      command.key,
+      command.value,
+      command.id,
+    );
   }
 }

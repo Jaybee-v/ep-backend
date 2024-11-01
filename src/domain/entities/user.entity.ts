@@ -1,3 +1,5 @@
+import { Address } from './address.entity';
+
 export enum UserRole {
   STABLE = 'STABLE',
   RIDER = 'RIDER',
@@ -13,6 +15,7 @@ export class User {
     private readonly familyName: string | null,
     private readonly password: string,
     private readonly role: UserRole,
+    private readonly address: Address | null,
     private readonly stableId: string | null,
     private readonly instructorId: string | null,
     private readonly createdAt: Date,
@@ -59,6 +62,10 @@ export class User {
     return this.role;
   }
 
+  public getAddress(): Address | null {
+    return this.address;
+  }
+
   public getStableId(): string | null {
     return this.stableId;
   }
@@ -81,9 +88,14 @@ export class User {
     familyName?: string;
     password: string;
     role: UserRole;
+    address?: Address;
     stableId?: string;
     instructorId?: string;
   }): User {
+    if (params.role === UserRole.STABLE && !params.address) {
+      throw new Error('Address is required for STABLE users');
+    }
+
     if (params.role === UserRole.RIDER) {
       return new User(
         undefined, // ID will be set by the database
@@ -93,12 +105,14 @@ export class User {
         params.familyName || null,
         params.password,
         params.role,
+        null,
         params.stableId || null,
         params.instructorId || null,
         new Date(),
         new Date(),
       );
     }
+
     return new User(
       undefined, // ID will be set by the database
       params.email,
@@ -107,6 +121,7 @@ export class User {
       params.familyName || null,
       params.password,
       params.role,
+      params.address || null,
       null,
       null,
       new Date(),
