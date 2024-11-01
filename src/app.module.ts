@@ -10,17 +10,23 @@ import { CreateBookingHandler } from './application/booking/commands/create-book
 import { GetBookingByIdHandler } from './application/booking/queries/get-booking-by-id/get-booking-by-id.handler';
 import { BookingController } from './presentation/controllers/booking.controller';
 import { GetBookingByUserIdHandler } from './application/booking/queries/get-booking-by-user-id/get-booking-by-user-id.handler';
+import { PatchUserHandler } from './application/user/commands/patch-user/patch-user.handler';
 
 @Module({
   imports: [PrismaModule],
   controllers: [UserController, BookingController],
   providers: [
+    // Create Use Cases
     CreateUserHandler,
+    CreateBookingHandler,
+    // Get Use Cases
     GetUserByEmailHandler,
     GetUserByIdHandler,
-    CreateBookingHandler,
     GetBookingByIdHandler,
     GetBookingByUserIdHandler,
+    // Patch Use Cases
+    PatchUserHandler,
+    // Delete Use Cases
     {
       provide: 'IUserRepository',
       useClass: UserRepository,
