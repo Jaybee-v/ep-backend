@@ -23,6 +23,8 @@ model User {
   stable       User?     @relation("StableRiders", fields: [stableId], references: [id])
   riders       User[]    @relation("StableRiders")
 
+  address Address?
+
   instructorId String?   // ID du moniteur si le rider prend des cours avec lui
   instructor   User?     @relation("InstructorRiders", fields: [instructorId], references: [id])
   students     User[]    @relation("InstructorRiders")
@@ -44,4 +46,21 @@ model Booking {
   status String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Address {
+  id            String   @id @default(cuid())
+  street        String
+  zipCode       String
+  city          String
+  country       String
+  additionalInfo String?
+  latitude      Float?
+  longitude     Float?
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String   @unique  // One-to-one relation
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
 }

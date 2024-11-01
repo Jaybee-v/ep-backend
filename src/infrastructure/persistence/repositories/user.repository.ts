@@ -11,13 +11,9 @@ export class UserRepository implements IUserRepository {
   async save(user: User): Promise<User> {
     const data = UserMapper.toPrisma(user);
     const savedUser = await this.prisma.user.create({
-      data: {
-        email: data.email,
-        emailVerified: data.emailVerified,
-        password: data.password,
-        role: data.role,
-        name: data.name,
-        familyName: data.familyName,
+      data,
+      include: {
+        address: true,
       },
     });
     console.log('SAVED USER', savedUser);
@@ -43,12 +39,14 @@ export class UserRepository implements IUserRepository {
     key: string,
     value: string | boolean,
     id: string,
-  ): Promise<void> {
-    await this.prisma.user.update({
+  ): Promise<boolean> {
+    const result = await this.prisma.user.update({
       where: { id },
       data: {
         [key]: value,
       },
     });
+
+    return !!result;
   }
 }
