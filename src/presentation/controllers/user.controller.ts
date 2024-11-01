@@ -29,17 +29,22 @@ export class UserController {
   @Post()
   async createUser(
     @Body() createUserDto: CreateUserDto,
-  ): Promise<{ id: string }> {
+  ): Promise<{ message: string; status: number; data: { id: string } }> {
     try {
       const command = new CreateUserCommand(
         createUserDto.email,
         createUserDto.password,
         createUserDto.role,
         createUserDto.name,
+        createUserDto.familyName,
       );
 
       const userId = await this.createUserHandler.execute(command);
-      return { id: userId };
+      return {
+        message: 'User created successfully',
+        status: 201,
+        data: { id: userId },
+      };
     } catch (error) {
       console.log('ERROR', error);
       if (error instanceof UserAlreadyExistsException) {
