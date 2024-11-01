@@ -23,6 +23,7 @@ export class CreateUserHandler {
       name: command.name,
       password: command.password,
       role: command.role,
+      familyName: command.familyName,
     });
 
     const savedUser = await this.userRepository.save(user);
