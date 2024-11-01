@@ -5,6 +5,8 @@ export class CreateBookingCommand {
     public readonly description: string,
     public readonly location: string,
     public readonly date: Date,
+    public readonly start: string,
+    public readonly end: string,
     public readonly status: string,
   ) {}
 }

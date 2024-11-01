@@ -13,9 +13,11 @@ export class UserRepository implements IUserRepository {
     const savedUser = await this.prisma.user.create({
       data: {
         email: data.email,
+        emailVerified: data.emailVerified,
         password: data.password,
         role: data.role,
         name: data.name,
+        familyName: data.familyName,
       },
     });
     console.log('SAVED USER', savedUser);
@@ -35,5 +37,18 @@ export class UserRepository implements IUserRepository {
       where: { id },
     });
     return user ? UserMapper.toDomain(user) : null;
+  }
+
+  async patchUser(
+    key: string,
+    value: string | boolean,
+    id: string,
+  ): Promise<void> {
+    await this.prisma.user.update({
+      where: { id },
+      data: {
+        [key]: value,
+      },
+    });
   }
 }

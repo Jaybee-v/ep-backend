@@ -18,6 +18,8 @@ export class BookingRepository implements IBookingRepository {
         description: data.description,
         location: data.location,
         date: data.date,
+        start: data.start,
+        end: data.end,
         status: data.status,
       },
     });

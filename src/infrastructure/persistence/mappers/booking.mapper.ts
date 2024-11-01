@@ -9,6 +9,8 @@ export class BookingMapper {
       raw.description,
       raw.location,
       raw.date,
+      raw.start,
+      raw.end,
       raw.status,
       raw.createdAt,
       raw.updatedAt,
@@ -23,6 +25,8 @@ export class BookingMapper {
       description: booking.getDescription(),
       location: booking.getLocation(),
       date: booking.getDate(),
+      start: booking.getStart(),
+      end: booking.getEnd(),
       status: booking.getStatus(),
     };
   }
