@@ -1,11 +1,15 @@
+import { Type } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
+  ValidateIf,
+  ValidateNested,
 } from 'class-validator';
 import { UserRole } from 'src/domain/entities/user.entity';
+import { CreateAddressDto } from './create-address.dto';
 
 export class CreateUserDto {
   @IsEmail()
@@ -28,4 +32,10 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   role: UserRole;
+
+  @ValidateIf((o) => o.role === UserRole.STABLE)
+  @ValidateNested()
+  @Type(() => CreateAddressDto)
+  @IsNotEmpty({ message: 'Address is required for stable users' })
+  address?: CreateAddressDto;
 }

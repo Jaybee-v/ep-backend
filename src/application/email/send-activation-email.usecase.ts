@@ -16,7 +16,7 @@ export class SendActivationEmailUsecase {
       template: EmailTemplate.ACTIVATION,
       context: {
         name: user.getName(),
-        activationLink: `${process.env.WEB_URL}/activate/${user.getId()}`,
+        activationLink: `${process.env.WEB_URL}/auth/activate/${user.getId()}`,
         role: user.getRole(),
       },
     });
