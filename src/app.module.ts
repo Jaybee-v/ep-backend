@@ -11,9 +11,11 @@ import { GetBookingByIdHandler } from './application/booking/queries/get-booking
 import { BookingController } from './presentation/controllers/booking.controller';
 import { GetBookingByUserIdHandler } from './application/booking/queries/get-booking-by-user-id/get-booking-by-user-id.handler';
 import { PatchUserHandler } from './application/user/commands/patch-user/patch-user.handler';
+import { EmailModule } from './presentation/module/email.module';
+import { MailerAdapter } from './infrastructure/adapters/mailer.adapter';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, EmailModule],
   controllers: [UserController, BookingController],
   providers: [
     // Create Use Cases

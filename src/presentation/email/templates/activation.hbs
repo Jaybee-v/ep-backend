@@ -1,0 +1,85 @@
+<html lang='fr'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <style>
+      /* Reset styles for email clients */ body { margin: 0; padding: 0;
+      font-family: Arial, sans-serif; line-height: 1.6; color: #333333;
+      background-color: #f4f4f4; } .container { max-width: 600px; margin: 0
+      auto; padding: 20px; background-color: #ffffff; } .header { text-align:
+      center; padding: 20px 0; background-color: #1a365d; /* Bleu foncé
+      professionnel */ color: white; } .content { padding: 30px 20px; } .button
+      { display: inline-block; padding: 12px 24px; margin: 20px 0;
+      background-color: #3b82f6; /* Bleu vif */ color: white; text-decoration:
+      none; border-radius: 6px; font-weight: bold; text-align: center; }
+      .role-specific { margin: 20px 0; padding: 15px; background-color: #f8fafc;
+      border-radius: 6px; border-left: 4px solid #3b82f6; } .footer {
+      text-align: center; padding: 20px; color: #666666; font-size: 12px;
+      border-top: 1px solid #eeeeee; } @media only screen and (max-width: 600px)
+      { .container { width: 100% !important; } }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='header'>
+        <h1>Bienvenue sur Equita Planner</h1>
+      </div>
+
+      <div class='content'>
+        <p>Bonjour {{name}},</p>
+
+        <p>Nous sommes ravis de vous accueillir sur Equita Planner. Pour
+          commencer à utiliser votre compte, veuillez confirmer votre adresse
+          email en cliquant sur le bouton ci-dessous :</p>
+
+        <div style='text-align: center;'>
+          <a href='{{activationLink}}' class='button'>Activer mon compte</a>
+        </div>
+
+        <div class='role-specific'>
+          {{#if (eq role 'RIDER')}}
+            <h3>🏇 Bienvenue, cavalier !</h3>
+            <p>Une fois votre compte activé, vous pourrez :</p>
+            <ul>
+              <li>Rechercher des centres équestres et moniteurs</li>
+              <li>Réserver vos cours en quelques clics</li>
+              <li>Gérer votre planning d'équitation</li>
+            </ul>
+          {{/if}}
+
+          {{#if (eq role 'STABLE')}}
+            <h3>🏠 Bienvenue, centre équestre !</h3>
+            <p>Une fois votre compte activé, vous pourrez :</p>
+            <ul>
+              <li>Configurer votre profil de centre équestre</li>
+              <li>Gérer vos disponibilités et créneaux</li>
+              <li>Suivre vos réservations</li>
+            </ul>
+          {{/if}}
+
+          {{#if (eq role 'INSTRUCTOR')}}
+            <h3>👨‍🏫 Bienvenue, moniteur !</h3>
+            <p>Une fois votre compte activé, vous pourrez :</p>
+            <ul>
+              <li>Créer votre profil professionnel</li>
+              <li>Définir vos disponibilités</li>
+              <li>Gérer vos cours et élèves</li>
+            </ul>
+          {{/if}}
+        </div>
+
+        <p><strong>Ce lien d'activation est valable pendant 24 heures.</strong></p>
+
+        <p>Si vous n'arrivez pas à cliquer sur le bouton, vous pouvez
+          copier-coller le lien suivant dans votre navigateur :</p>
+        <p style='word-break: break-all; color: #666666;'>{{activationLink}}</p>
+      </div>
+
+      <div class='footer'>
+        <p>Cet email a été envoyé par Equita Planner</p>
+        <p>Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer
+          cet email.</p>
+      </div>
+    </div>
+  </body>
+</html>
