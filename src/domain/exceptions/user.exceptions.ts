@@ -4,3 +4,10 @@ export class UserAlreadyExistsException extends Error {
     this.name = 'UserAlreadyExistsException';
   }
 }
+
+export class InvalidAddressException extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidAddressException';
+  }
+}

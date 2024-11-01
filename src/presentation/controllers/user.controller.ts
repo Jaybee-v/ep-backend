@@ -13,7 +13,7 @@ import { CreateUserHandler } from 'src/application/user/commands/create-user/cre
 import { GetUserByEmailHandler } from 'src/application/user/queries/get-user-by-email/get-user-by-email.handler';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserAlreadyExistsException } from 'src/domain/exceptions/user.exceptions';
-import { User } from 'src/domain/entities/user.entity';
+import { User, UserRole } from 'src/domain/entities/user.entity';
 import { GetUserByIdHandler } from 'src/application/user/queries/get-user-by-id/get-user-by-id.handler';
 import { PatchUserHandler } from 'src/application/user/commands/patch-user/patch-user.handler';
 
@@ -37,6 +37,15 @@ export class UserController {
         createUserDto.role,
         createUserDto.name,
         createUserDto.familyName,
+        createUserDto.role === UserRole.STABLE
+          ? {
+              street: createUserDto.address.street,
+              zipCode: createUserDto.address.zipCode,
+              city: createUserDto.address.city,
+              country: createUserDto.address.country,
+              additionalInfo: createUserDto.address.additionalInfo,
+            }
+          : undefined,
       );
 
       const userId = await this.createUserHandler.execute(command);
@@ -84,15 +93,56 @@ export class UserController {
     return user;
   }
 
+  @Patch('activate/:id')
+  async activateUser(
+    @Param('id') id: string,
+  ): Promise<{ message: string; status: number }> {
+    const result = await this.patchUserHandler.execute({
+      id,
+      key: 'emailVerified',
+      value: true,
+    });
+
+    if (!result) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'User not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return {
+      message: 'User activated successfully',
+      status: 200,
+    };
+  }
+
   @Patch(':id')
   async patchUser(
     @Param('id') id: string,
     @Body() body: { key: string; value: string | boolean },
-  ): Promise<void> {
-    await this.patchUserHandler.execute({
+  ): Promise<{ message: string; status: number }> {
+    const result = await this.patchUserHandler.execute({
       id,
       key: body.key,
       value: body.value,
     });
+
+    if (!result) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'User not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return {
+      message: 'User updated successfully',
+      status: 200,
+    };
   }
 }
