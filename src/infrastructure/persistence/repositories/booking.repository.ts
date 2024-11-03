@@ -10,6 +10,19 @@ export class BookingRepository implements IBookingRepository {
 
   async save(booking: Booking): Promise<Booking> {
     const data = BookingMapper.toPrisma(booking);
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: data.userId },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (user.role === 'RIDER') {
+      throw new Error('Only instructors and stables can create bookings');
+    }
+
     const savedBooking = await this.prisma.booking.create({
       data: {
         id: data.id,
@@ -21,6 +34,8 @@ export class BookingRepository implements IBookingRepository {
         start: data.start,
         end: data.end,
         status: data.status,
+        discipline: data.discipline,
+        maxParticipants: data.maxParticipants,
       },
     });
     console.log('SAVED BOOKING', savedBooking);
@@ -40,5 +55,33 @@ export class BookingRepository implements IBookingRepository {
       where: { id },
     });
     return booking ? BookingMapper.toDomain(booking) : null;
+  }
+
+  async findByDateRange(
+    userId: string,
+    start: Date,
+    end: Date,
+  ): Promise<Booking[]> {
+    const bookings = await this.prisma.booking.findMany({
+      where: {
+        userId,
+        date: {
+          gte: start,
+          lte: end,
+        },
+      },
+      include: {
+        subscriptions: {
+          include: {
+            user: true,
+          },
+        },
+      },
+      orderBy: {
+        start: 'asc',
+      },
+    });
+
+    return bookings.map((booking) => BookingMapper.toDomain(booking));
   }
 }

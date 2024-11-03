@@ -14,12 +14,13 @@ export class CreateBookingHandler {
     const booking = Booking.create({
       userId: command.userId,
       title: command.title,
+      discipline: command.discipline,
       description: command.description,
       location: command.location,
       date: command.date,
       start: command.start,
       end: command.end,
-      status: command.status,
+      maxParticipants: command.maxParticipants,
     });
 
     const savedBooking = await this.bookingRepository.save(booking);

@@ -13,9 +13,19 @@ import { GetBookingByUserIdHandler } from './application/booking/queries/get-boo
 import { PatchUserHandler } from './application/user/commands/patch-user/patch-user.handler';
 import { EmailModule } from './presentation/module/email.module';
 import { MailerAdapter } from './infrastructure/adapters/mailer.adapter';
+import { ConfigModule } from '@nestjs/config';
+import { GetWeekBookingsHandler } from './application/booking/queries/get-week-bookings-by-user-id/get-week-bookings-by-user-id.handler';
+import { GetRidersHandler } from './application/user/queries/get-riders/get-riders-handler';
 
 @Module({
-  imports: [PrismaModule, EmailModule],
+  imports: [
+    PrismaModule,
+    EmailModule,
+    ConfigModule.forRoot({
+      envFilePath: ['.env'],
+      isGlobal: true,
+    }),
+  ],
   controllers: [UserController, BookingController],
   providers: [
     // Create Use Cases
@@ -26,6 +36,8 @@ import { MailerAdapter } from './infrastructure/adapters/mailer.adapter';
     GetUserByIdHandler,
     GetBookingByIdHandler,
     GetBookingByUserIdHandler,
+    GetWeekBookingsHandler,
+    GetRidersHandler,
     // Patch Use Cases
     PatchUserHandler,
     // Delete Use Cases

@@ -7,29 +7,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  emailVerified Boolean @default(false)
-  name      String?
-  familyName String?
-  password  String
-  role     String @default("RIDER")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum UserRole {
+  RIDER
+  STABLE
+  INSTRUCTOR
+}
 
-   // Relations
-  stableId     String?   // ID du centre équestre si le rider y est affilié
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum SubscriptionStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  WAITING_LIST
+  NO_SHOW
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  name          String?
+  familyName    String?
+  password      String
+  role          UserRole @default(RIDER)  // Utilisation de l'enum
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  stableId     String?
   stable       User?     @relation("StableRiders", fields: [stableId], references: [id])
   riders       User[]    @relation("StableRiders")
 
-  address Address?
+  address      Address?
 
-  instructorId String?   // ID du moniteur si le rider prend des cours avec lui
+  instructorId String?
   instructor   User?     @relation("InstructorRiders", fields: [instructorId], references: [id])
   students     User[]    @relation("InstructorRiders")
 
-  // Contrainte pour s'assurer que seuls les RIDER peuvent avoir ces relations
+  // Nouvelles relations pour Booking
+  createdBookings Booking[]
+  subscriptions   BookingSubscription[]
+
   @@index([stableId])
   @@index([instructorId])
 }
@@ -38,14 +62,19 @@ model Booking {
   id Int @id @default(autoincrement())
   userId String
   title String
+  discipline String
   description String
   location String
   date DateTime
   start String
   end String
-  status String
+  status BookingStatus @default(PENDING) 
+  maxParticipants Int    @default(1) 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  creator         User      @relation(fields: [userId], references: [id])
+  subscriptions   BookingSubscription[]
 }
 
 model Address {
@@ -63,4 +92,20 @@ model Address {
   updatedAt     DateTime @updatedAt
 
   @@index([userId])
+}
+
+model BookingSubscription {
+  id Int @id @default(autoincrement())
+  userId String
+  bookingId Int
+  status SubscriptionStatus @default(PENDING) 
+  position Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  booking     Booking   @relation(fields: [bookingId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([bookingId])
 }
