@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateBookingDto {
   @IsString()
@@ -23,5 +23,10 @@ export class CreateBookingDto {
   end: string;
 
   @IsString()
-  status: string;
+  @IsNotEmpty()
+  discipline: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  maxParticipants: number;
 }

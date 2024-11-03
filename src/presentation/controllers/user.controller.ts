@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CreateUserCommand } from 'src/application/user/commands/create-user/create-user.command';
 import { CreateUserHandler } from 'src/application/user/commands/create-user/create-user.handler';
@@ -16,6 +17,7 @@ import { UserAlreadyExistsException } from 'src/domain/exceptions/user.exception
 import { User, UserRole } from 'src/domain/entities/user.entity';
 import { GetUserByIdHandler } from 'src/application/user/queries/get-user-by-id/get-user-by-id.handler';
 import { PatchUserHandler } from 'src/application/user/commands/patch-user/patch-user.handler';
+import { GetRidersHandler } from 'src/application/user/queries/get-riders/get-riders-handler';
 
 @Controller('users')
 export class UserController {
@@ -24,6 +26,7 @@ export class UserController {
     private readonly getUserByEmailHandler: GetUserByEmailHandler,
     private readonly getUserByIdHandler: GetUserByIdHandler,
     private readonly patchUserHandler: PatchUserHandler,
+    private readonly getRidersHandler: GetRidersHandler,
   ) {}
 
   @Post()
@@ -91,6 +94,25 @@ export class UserController {
     }
 
     return user;
+  }
+
+  @Get('riders/:userId')
+  async getRiders(
+    @Param('userId') userId: string,
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ): Promise<{
+    message: string;
+    status: number;
+    data: { users: User[]; total: number; totalPages: number };
+  }> {
+    const result = await this.getRidersHandler.execute({ userId, page, limit });
+
+    return {
+      message: 'Riders fetched successfully',
+      status: 200,
+      data: result,
+    };
   }
 
   @Patch('activate/:id')

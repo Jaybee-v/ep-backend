@@ -6,12 +6,14 @@ export class BookingMapper {
       raw.id,
       raw.userId,
       raw.title,
+      raw.discipline,
       raw.description,
       raw.location,
       raw.date,
       raw.start,
       raw.end,
       raw.status,
+      raw.maxParticipants,
       raw.createdAt,
       raw.updatedAt,
     );
@@ -28,6 +30,8 @@ export class BookingMapper {
       start: booking.getStart(),
       end: booking.getEnd(),
       status: booking.getStatus(),
+      discipline: booking.getDiscipline(),
+      maxParticipants: booking.getMaxParticipants(),
     };
   }
 }

@@ -5,19 +5,22 @@ import {
   HttpException,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CreateBookingHandler } from 'src/application/booking/commands/create-booking/create-booking.handler';
 import { GetBookingByIdHandler } from 'src/application/booking/queries/get-booking-by-id/get-booking-by-id.handler';
 import { CreateBookingDto } from '../dtos/create-booking.dto';
 import { CreateBookingCommand } from 'src/application/booking/commands/create-booking/create-booking.command';
 import { GetBookingByUserIdHandler } from 'src/application/booking/queries/get-booking-by-user-id/get-booking-by-user-id.handler';
+import { GetWeekBookingsHandler } from 'src/application/booking/queries/get-week-bookings-by-user-id/get-week-bookings-by-user-id.handler';
 
-@Controller('booking')
+@Controller('bookings')
 export class BookingController {
   constructor(
     private readonly createBookingHandler: CreateBookingHandler,
     private readonly getBookingByIdHandler: GetBookingByIdHandler,
     private readonly getBookingByUserIdHandler: GetBookingByUserIdHandler,
+    private readonly getWeekBookingsHandler: GetWeekBookingsHandler,
   ) {}
 
   @Post()
@@ -28,12 +31,14 @@ export class BookingController {
       const command = new CreateBookingCommand(
         createBookingDto.userId,
         createBookingDto.title,
+        createBookingDto.discipline,
         createBookingDto.description,
         createBookingDto.location,
-        createBookingDto.date,
+        new Date(createBookingDto.date),
         createBookingDto.start,
         createBookingDto.end,
-        createBookingDto.status,
+
+        createBookingDto.maxParticipants,
       );
 
       const result = await this.createBookingHandler.execute(command);
@@ -71,22 +76,38 @@ export class BookingController {
     }
   }
 
-  @Get('user/:userId')
-  async getBookingByUserId(
-    @Param('userId') userId: string,
-  ): Promise<{ status: number; data: any }> {
-    try {
-      const bookings = await this.getBookingByUserIdHandler.execute({ userId });
-      return { status: 200, data: bookings };
-    } catch (error) {
-      console.log('ERROR', error);
-      throw new HttpException(
-        {
-          status: 500,
-          error: 'Internal server error',
-        },
-        500,
-      );
-    }
+  // @Get('user/:userId')
+  // async getBookingByUserId(
+  //   @Param('userId') userId: string,
+  // ): Promise<{ status: number; data: any }> {
+  //   try {
+  //     const bookings = await this.getBookingByUserIdHandler.execute({ userId });
+  //     return { status: 200, data: bookings };
+  //   } catch (error) {
+  //     console.log('ERROR', error);
+  //     throw new HttpException(
+  //       {
+  //         status: 500,
+  //         error: 'Internal server error',
+  //       },
+  //       500,
+  //     );
+  //   }
+  // }
+
+  @Get('user/week')
+  async getWeekBookings(
+    @Query('date') dateString: string,
+    @Query('userId') userId: string,
+  ) {
+    const date = dateString ? new Date(dateString) : new Date();
+    const weekBookings = await this.getWeekBookingsHandler.execute({
+      date,
+      userId,
+    });
+
+    console.log('WEEK BOOKINGS', weekBookings);
+
+    return weekBookings;
   }
 }

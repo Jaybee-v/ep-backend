@@ -18,6 +18,7 @@ export class CreateUserHandler {
   ) {}
 
   async execute(command: CreateUserCommand): Promise<string> {
+    console.log('Command reçue:', command); // Debug
     const existingUser = await this.userRepository.findByEmail(command.email);
 
     if (existingUser) {

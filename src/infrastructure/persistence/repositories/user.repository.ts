@@ -49,4 +49,67 @@ export class UserRepository implements IUserRepository {
 
     return !!result;
   }
+
+  async getRiders(
+    userId: string,
+    page: number,
+    limit: number,
+  ): Promise<{ users: User[]; total: number; totalPages: number }> {
+    const user = await this.findById(userId);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (user.getRole() === 'RIDER') {
+      throw new HttpException(
+        'Only instructors and stables can get riders',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
+    const skip = (page - 1) * limit;
+    const take = parseInt(limit.toString());
+
+    if (user.getRole() === 'INSTRUCTOR') {
+      const users = await this.prisma.user.findMany({
+        where: { instructorId: userId },
+        skip,
+        take: take,
+      });
+      const totalCount = await this.prisma.user.count({
+        where: {
+          instructorId: userId,
+          // Mêmes filtres que ci-dessus
+        },
+      });
+      const totalPages = Math.ceil(totalCount / limit);
+
+      return {
+        users: users.map((user) => UserMapper.toDomain(user)),
+        total: totalCount,
+        totalPages,
+      };
+    }
+
+    if (user.getRole() === 'STABLE') {
+      const users = await this.prisma.user.findMany({
+        where: { stableId: userId },
+        skip,
+        take: take,
+      });
+      const totalCount = await this.prisma.user.count({
+        where: {
+          stableId: userId,
+          // Mêmes filtres que ci-dessus
+        },
+      });
+      const totalPages = Math.ceil(totalCount / limit);
+      return {
+        users: users.map((user) => UserMapper.toDomain(user)),
+        total: totalCount,
+        totalPages,
+      };
+    }
+  }
 }
