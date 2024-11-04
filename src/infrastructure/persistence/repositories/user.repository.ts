@@ -54,7 +54,12 @@ export class UserRepository implements IUserRepository {
     userId: string,
     page: number,
     limit: number,
-  ): Promise<{ users: User[]; total: number; totalPages: number }> {
+  ): Promise<{
+    users: User[];
+    currentPage: number;
+    total: number;
+    totalPages: number;
+  }> {
     const user = await this.findById(userId);
 
     if (!user) {
@@ -87,6 +92,7 @@ export class UserRepository implements IUserRepository {
 
       return {
         users: users.map((user) => UserMapper.toDomain(user)),
+        currentPage: page,
         total: totalCount,
         totalPages,
       };
@@ -107,6 +113,7 @@ export class UserRepository implements IUserRepository {
       const totalPages = Math.ceil(totalCount / limit);
       return {
         users: users.map((user) => UserMapper.toDomain(user)),
+        currentPage: page,
         total: totalCount,
         totalPages,
       };
