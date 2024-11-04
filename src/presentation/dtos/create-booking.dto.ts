@@ -28,5 +28,9 @@ export class CreateBookingDto {
 
   @IsNumber()
   @IsNotEmpty()
+  requiredLevel: number;
+
+  @IsNumber()
+  @IsNotEmpty()
   maxParticipants: number;
 }

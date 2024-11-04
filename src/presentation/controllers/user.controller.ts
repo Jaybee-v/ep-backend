@@ -112,7 +112,7 @@ export class UserController {
     };
   }> {
     const result = await this.getRidersHandler.execute({ userId, page, limit });
-
+    console.log('RESULT', result);
     return {
       message: 'Riders fetched successfully',
       status: 200,

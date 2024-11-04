@@ -13,6 +13,7 @@ import { CreateBookingDto } from '../dtos/create-booking.dto';
 import { CreateBookingCommand } from 'src/application/booking/commands/create-booking/create-booking.command';
 import { GetBookingByUserIdHandler } from 'src/application/booking/queries/get-booking-by-user-id/get-booking-by-user-id.handler';
 import { GetWeekBookingsHandler } from 'src/application/booking/queries/get-week-bookings-by-user-id/get-week-bookings-by-user-id.handler';
+import { GetDayBookingsByUserIdHandler } from 'src/application/booking/queries/get-day-bookings-by-user-id/get-day-bookings-by-user-id.handler';
 
 @Controller('bookings')
 export class BookingController {
@@ -21,6 +22,7 @@ export class BookingController {
     private readonly getBookingByIdHandler: GetBookingByIdHandler,
     private readonly getBookingByUserIdHandler: GetBookingByUserIdHandler,
     private readonly getWeekBookingsHandler: GetWeekBookingsHandler,
+    private readonly getDayBookingsHandler: GetDayBookingsByUserIdHandler,
   ) {}
 
   @Post()
@@ -37,8 +39,8 @@ export class BookingController {
         new Date(createBookingDto.date),
         createBookingDto.start,
         createBookingDto.end,
-
         createBookingDto.maxParticipants,
+        createBookingDto.requiredLevel,
       );
 
       const result = await this.createBookingHandler.execute(command);
@@ -94,6 +96,22 @@ export class BookingController {
   //     );
   //   }
   // }
+
+  @Get('user/day')
+  async getDayBookings(
+    @Query('date') dateString: string,
+    @Query('userId') userId: string,
+  ) {
+    const date = dateString ? new Date(dateString) : new Date();
+    const dayBookings = await this.getDayBookingsHandler.execute({
+      date,
+      userId,
+    });
+
+    console.log('DAY BOOKINGS', dayBookings);
+
+    return dayBookings;
+  }
 
   @Get('user/week')
   async getWeekBookings(

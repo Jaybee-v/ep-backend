@@ -23,6 +23,7 @@ import { LoginHandler } from './application/auth/commands/login/login.handler';
 import { RefreshTokenHandler } from './application/auth/commands/refresh-token/refresh-token.handler';
 import { RevokeTokenHandler } from './application/auth/commands/revoke-token/revoke-token.handler';
 import { AuthController } from './presentation/controllers/auth.controller';
+import { GetDayBookingsByUserIdHandler } from './application/booking/queries/get-day-bookings-by-user-id/get-day-bookings-by-user-id.handler';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { AuthController } from './presentation/controllers/auth.controller';
     GetWeekBookingsHandler,
     GetRidersHandler,
     RefreshTokenHandler,
+    GetDayBookingsByUserIdHandler,
     // Patch Use Cases
     PatchUserHandler,
     // Delete Use Cases

@@ -11,5 +11,6 @@ export class CreateBookingCommand {
     public readonly start: string,
     public readonly end: string,
     public readonly maxParticipants: number,
+    public readonly requiredLevel: number,
   ) {}
 }
