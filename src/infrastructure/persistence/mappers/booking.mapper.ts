@@ -14,6 +14,7 @@ export class BookingMapper {
       raw.end,
       raw.status,
       raw.maxParticipants,
+      raw.requiredLevel,
       raw.createdAt,
       raw.updatedAt,
     );
@@ -32,6 +33,7 @@ export class BookingMapper {
       status: booking.getStatus(),
       discipline: booking.getDiscipline(),
       maxParticipants: booking.getMaxParticipants(),
+      requiredLevel: booking.getRequiredLevel(),
     };
   }
 }
