@@ -85,4 +85,24 @@ export class BookingRepository implements IBookingRepository {
 
     return bookings.map((booking) => BookingMapper.toDomain(booking));
   }
+
+  // async updateBooking(id: number, data: Booking): Promise<Booking> {
+  //   const updatedBooking = await this.prisma.booking.update({
+  //     where: { id },
+  //     data: {
+  //       title: data.title,
+  //       description: data.description,
+  //       location: data.location,
+  //       date: data.date,
+  //       start: data.start,
+  //       end: data.end,
+  //       status: data.status,
+  //       discipline: data.discipline,
+  //       maxParticipants: data.maxParticipants,
+  //       requiredLevel: data.requiredLevel,
+  //     },
+  //   });
+
+  //   return BookingMapper.toDomain(updatedBooking);
+  // }
 }
