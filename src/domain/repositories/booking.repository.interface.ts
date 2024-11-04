@@ -5,4 +5,5 @@ export interface IBookingRepository {
   findByUserId(userId: string): Promise<Booking[]>;
   findById(id: number): Promise<Booking | null>;
   findByDateRange(userId: string, start: Date, end: Date): Promise<Booking[]>;
+  // updateBooking(id: number, data: Booking): Promise<Booking>;
 }
