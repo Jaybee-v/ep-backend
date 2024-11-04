@@ -8,12 +8,16 @@ import {
 } from 'src/domain/exceptions/user.exceptions';
 import { SendActivationEmailUsecase } from 'src/application/email/send-activation-email.usecase';
 import { Address } from 'src/domain/entities/address.entity';
+import { hash } from 'src/infrastructure/libs/auth/password';
+import { IAuthPort } from 'src/domain/ports/auth.port';
 
 @Injectable()
 export class CreateUserHandler {
   constructor(
     @Inject('IUserRepository')
     private readonly userRepository: IUserRepository,
+    @Inject('IAuthPort')
+    private readonly authPort: IAuthPort,
     private readonly sendActivationEmailUsecase: SendActivationEmailUsecase,
   ) {}
 
@@ -42,10 +46,12 @@ export class CreateUserHandler {
       });
     }
 
+    const hashedPassword = await this.authPort.hashPassword(command.password);
+
     const user = User.create({
       email: command.email,
       name: command.name,
-      password: command.password,
+      password: hashedPassword,
       role: command.role,
       familyName: command.familyName,
       address: address,

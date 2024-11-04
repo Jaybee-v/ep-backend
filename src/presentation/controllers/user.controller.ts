@@ -104,7 +104,12 @@ export class UserController {
   ): Promise<{
     message: string;
     status: number;
-    data: { users: User[]; total: number; totalPages: number };
+    data: {
+      users: User[];
+      currentPage: number;
+      total: number;
+      totalPages: number;
+    };
   }> {
     const result = await this.getRidersHandler.execute({ userId, page, limit });
 

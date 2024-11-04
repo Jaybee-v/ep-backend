@@ -11,3 +11,17 @@ export class InvalidAddressException extends Error {
     this.name = 'InvalidAddressException';
   }
 }
+
+export class EmailNotVerifiedException extends Error {
+  constructor() {
+    super('Email not verified');
+    this.name = 'EmailNotVerifiedException';
+  }
+}
+
+export class UserNotFoundException extends Error {
+  constructor() {
+    super('User not found');
+    this.name = 'UserNotFoundException';
+  }
+}

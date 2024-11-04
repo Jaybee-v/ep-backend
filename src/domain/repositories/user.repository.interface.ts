@@ -9,5 +9,10 @@ export interface IUserRepository {
     userId: string,
     page: number,
     limit: number,
-  ): Promise<{ users: User[]; total: number; totalPages: number }>;
+  ): Promise<{
+    users: User[];
+    currentPage: number;
+    total: number;
+    totalPages: number;
+  }>;
 }

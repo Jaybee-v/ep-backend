@@ -54,6 +54,8 @@ model User {
   createdBookings Booking[]
   subscriptions   BookingSubscription[]
 
+  refreshTokens RefreshToken[]
+
   @@index([stableId])
   @@index([instructorId])
 }
@@ -108,4 +110,15 @@ model BookingSubscription {
 
   @@index([userId])
   @@index([bookingId])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique  @db.VarChar(500)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([userId])
 }
