@@ -151,6 +151,8 @@ export class UserController {
     @Param('id') id: string,
     @Body() body: { key: string; value: string | boolean },
   ): Promise<{ message: string; status: number }> {
+    console.log(body);
+
     const result = await this.patchUserHandler.execute({
       id,
       key: body.key,
