@@ -44,6 +44,7 @@ export class UserRepository implements IUserRepository {
       where: { id },
       data: {
         [key]: value,
+        updatedAt: new Date(),
       },
     });
 
