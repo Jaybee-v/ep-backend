@@ -11,7 +11,12 @@ export class GetRidersHandler {
 
   async execute(
     query: GetRidersQuery,
-  ): Promise<{ users: User[]; total: number; totalPages: number }> {
+  ): Promise<{
+    users: User[];
+    currentPage: number;
+    total: number;
+    totalPages: number;
+  }> {
     return await this.userRepository.getRiders(
       query.userId,
       query.page,
