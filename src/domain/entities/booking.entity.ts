@@ -20,6 +20,7 @@ export class Booking {
     private readonly end: string,
     private readonly status: BookingStatus,
     private readonly maxParticipants: number,
+    private readonly requiredLevel: number,
     private readonly createdAt: Date,
     private readonly updatedAt: Date,
   ) {
@@ -95,6 +96,10 @@ export class Booking {
     return this.maxParticipants;
   }
 
+  public getRequiredLevel(): number {
+    return this.requiredLevel;
+  }
+
   public getCreatedAt(): Date {
     return this.createdAt;
   }
@@ -113,6 +118,7 @@ export class Booking {
     start: string;
     end: string;
     maxParticipants: number;
+    requiredLevel: number;
   }): Booking {
     return new Booking(
       undefined, // ID will be set by the database
@@ -126,6 +132,7 @@ export class Booking {
       params.end,
       BookingStatus.PENDING,
       params.maxParticipants,
+      params.requiredLevel,
       new Date(),
       new Date(),
     );

@@ -21,6 +21,7 @@ export class CreateBookingHandler {
       start: command.start,
       end: command.end,
       maxParticipants: command.maxParticipants,
+      requiredLevel: command.requiredLevel,
     });
 
     const savedBooking = await this.bookingRepository.save(booking);
