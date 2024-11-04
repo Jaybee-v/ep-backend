@@ -36,6 +36,7 @@ export class BookingRepository implements IBookingRepository {
         status: data.status,
         discipline: data.discipline,
         maxParticipants: data.maxParticipants,
+        requiredLevel: data.requiredLevel,
       },
     });
     console.log('SAVED BOOKING', savedBooking);
