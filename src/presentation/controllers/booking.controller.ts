@@ -5,6 +5,7 @@ import {
   HttpException,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { CreateBookingHandler } from 'src/application/booking/commands/create-booking/create-booking.handler';
@@ -14,6 +15,8 @@ import { CreateBookingCommand } from 'src/application/booking/commands/create-bo
 import { GetBookingByUserIdHandler } from 'src/application/booking/queries/get-booking-by-user-id/get-booking-by-user-id.handler';
 import { GetWeekBookingsHandler } from 'src/application/booking/queries/get-week-bookings-by-user-id/get-week-bookings-by-user-id.handler';
 import { GetDayBookingsByUserIdHandler } from 'src/application/booking/queries/get-day-bookings-by-user-id/get-day-bookings-by-user-id.handler';
+import { UpdateBookingHandler } from 'src/application/booking/commands/update-booking/update-booking.handler';
+import { UpdateBookingCommand } from 'src/application/booking/commands/update-booking/update-booking.command';
 
 @Controller('bookings')
 export class BookingController {
@@ -23,6 +26,7 @@ export class BookingController {
     private readonly getBookingByUserIdHandler: GetBookingByUserIdHandler,
     private readonly getWeekBookingsHandler: GetWeekBookingsHandler,
     private readonly getDayBookingsHandler: GetDayBookingsByUserIdHandler,
+    private readonly updateBookingHandler: UpdateBookingHandler,
   ) {}
 
   @Post()
@@ -66,6 +70,40 @@ export class BookingController {
         id: parseInt(id),
       });
       return { status: 200, data: booking };
+    } catch (error) {
+      console.log('ERROR', error);
+      throw new HttpException(
+        {
+          status: 500,
+          error: 'Internal server error',
+        },
+        500,
+      );
+    }
+  }
+
+  @Put(':id')
+  async updateBooking(
+    @Param('id') id: string,
+    @Body() createBookingDto: CreateBookingDto,
+  ) {
+    try {
+      const command = new UpdateBookingCommand(
+        parseInt(id),
+        createBookingDto.userId,
+        createBookingDto.title,
+        createBookingDto.discipline,
+        createBookingDto.description,
+        createBookingDto.location,
+        new Date(createBookingDto.date),
+        createBookingDto.start,
+        createBookingDto.end,
+        createBookingDto.maxParticipants,
+        createBookingDto.requiredLevel,
+      );
+      console.log('COMMAND', command);
+      const result = await this.updateBookingHandler.execute(command);
+      return { status: 200, message: result };
     } catch (error) {
       console.log('ERROR', error);
       throw new HttpException(
