@@ -41,9 +41,9 @@ export class Booking {
       throw new Error('End time must be after start time');
     }
     // Validation de la date
-    if (this.date < new Date(new Date().setHours(0, 0, 0, 0))) {
-      throw new Error('Cannot book in the past');
-    }
+    // if (this.date < new Date(new Date().setHours(0, 0, 0, 0))) {
+    //   throw new Error('Cannot book in the past');
+    // }
   }
 
   private validateTimeFormat(time: string): boolean {
@@ -134,6 +134,39 @@ export class Booking {
       params.maxParticipants,
       params.requiredLevel,
       new Date(),
+      new Date(),
+    );
+  }
+
+  static updateBooking(params: {
+    id: number;
+    userId: string;
+    title: string;
+    discipline: string;
+    description: string;
+    location: string;
+    date: Date;
+    start: string;
+    end: string;
+    status: BookingStatus;
+    maxParticipants: number;
+    requiredLevel: number;
+    createdAt: Date;
+  }): Booking {
+    return new Booking(
+      params.id,
+      params.userId,
+      params.title,
+      params.discipline,
+      params.description,
+      params.location,
+      params.date,
+      params.start,
+      params.end,
+      params.status,
+      params.maxParticipants,
+      params.requiredLevel,
+      params.createdAt,
       new Date(),
     );
   }

@@ -86,23 +86,31 @@ export class BookingRepository implements IBookingRepository {
     return bookings.map((booking) => BookingMapper.toDomain(booking));
   }
 
-  // async updateBooking(id: number, data: Booking): Promise<Booking> {
-  //   const updatedBooking = await this.prisma.booking.update({
-  //     where: { id },
-  //     data: {
-  //       title: data.title,
-  //       description: data.description,
-  //       location: data.location,
-  //       date: data.date,
-  //       start: data.start,
-  //       end: data.end,
-  //       status: data.status,
-  //       discipline: data.discipline,
-  //       maxParticipants: data.maxParticipants,
-  //       requiredLevel: data.requiredLevel,
-  //     },
-  //   });
+  async updateBooking(id: number, data: Booking): Promise<Booking> {
+    const booking = await this.findById(id);
 
-  //   return BookingMapper.toDomain(updatedBooking);
-  // }
+    if (!booking) {
+      throw new Error('Booking not found');
+    }
+
+    const _booking = BookingMapper.toPrisma(data);
+
+    const updatedBooking = await this.prisma.booking.update({
+      where: { id },
+      data: {
+        title: _booking.title,
+        description: _booking.description,
+        location: _booking.location,
+        date: _booking.date,
+        start: _booking.start,
+        end: _booking.end,
+        status: _booking.status,
+        discipline: _booking.discipline,
+        maxParticipants: _booking.maxParticipants,
+        requiredLevel: _booking.requiredLevel,
+      },
+    });
+
+    return BookingMapper.toDomain(updatedBooking);
+  }
 }
