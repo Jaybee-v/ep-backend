@@ -1,5 +1,10 @@
 import { Address } from 'src/domain/entities/address.entity';
-import { User, UserRole } from 'src/domain/entities/user.entity';
+import { Booking } from 'src/domain/entities/booking.entity';
+import {
+  FullStableOrInstructor,
+  User,
+  UserRole,
+} from 'src/domain/entities/user.entity';
 
 export class UserMapper {
   static toDomain(raw: any): User {
@@ -83,5 +88,27 @@ export class UserMapper {
     }
 
     return data;
+  }
+
+  static toFullStableOrInstructor(
+    userFound: User,
+    bookings: Booking[],
+    ridersCount: number,
+  ): FullStableOrInstructor {
+    const user: FullStableOrInstructor = {
+      id: userFound.getId(),
+      email: userFound.getEmail(),
+      emailVerified: userFound.getEmailVerified(),
+      name: userFound.getName(),
+      familyName: userFound.getFamilyName(),
+      role: userFound.getRole(),
+      address: userFound.getAddress(),
+      ridersCount,
+      bookings,
+      createdAt: userFound.getCreatedAt(),
+      updatedAt: userFound.getUpdatedAt(),
+    };
+
+    return user;
   }
 }

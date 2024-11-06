@@ -1,4 +1,4 @@
-import { User } from '../entities/user.entity';
+import { FullStableOrInstructor, User } from '../entities/user.entity';
 
 export interface IUserRepository {
   save(user: User): Promise<User>;
@@ -15,4 +15,27 @@ export interface IUserRepository {
     total: number;
     totalPages: number;
   }>;
+  getAllStableAndTeachers(
+    page: number,
+    limit: number,
+  ): Promise<{
+    users: User[];
+    currentPage: number;
+    total: number;
+    totalPages: number;
+  }>;
+  findStableOrInstructorByField(
+    fields: { name?: string; zipCode?: string },
+    page: number,
+    limit: number,
+  ): Promise<{
+    users: User[];
+    currentPage: number;
+    total: number;
+    totalPages: number;
+  }>;
+  getStableOrInstructor(
+    id: string,
+    date: Date,
+  ): Promise<FullStableOrInstructor>;
 }

@@ -18,6 +18,9 @@ import { User, UserRole } from 'src/domain/entities/user.entity';
 import { GetUserByIdHandler } from 'src/application/user/queries/get-user-by-id/get-user-by-id.handler';
 import { PatchUserHandler } from 'src/application/user/commands/patch-user/patch-user.handler';
 import { GetRidersHandler } from 'src/application/user/queries/get-riders/get-riders-handler';
+import { GetStableAndTeachersHandler } from 'src/application/user/queries/get-stable-and-teachers/get-stable-and-teachers.handler';
+import { GetStableOrInstructorHandler } from 'src/application/user/queries/get-stable-or-teacher/get-stable-or-teacher.handler';
+import { FindStableOrInstructorByFieldsHandler } from 'src/application/user/queries/find-stable-or-instructor-by-fields/find-stable-or-instructor-by-fields.handler';
 
 @Controller('users')
 export class UserController {
@@ -27,6 +30,9 @@ export class UserController {
     private readonly getUserByIdHandler: GetUserByIdHandler,
     private readonly patchUserHandler: PatchUserHandler,
     private readonly getRidersHandler: GetRidersHandler,
+    private readonly getStableAndTeachersHandler: GetStableAndTeachersHandler,
+    private readonly getStableOrInstructorHandler: GetStableOrInstructorHandler,
+    private readonly findStableOrInstructorByFieldsHandler: FindStableOrInstructorByFieldsHandler,
   ) {}
 
   @Post()
@@ -80,7 +86,9 @@ export class UserController {
   }
 
   @Get(':id')
-  async getUserById(@Param('id') id: string): Promise<User> {
+  async getUserById(
+    @Param('id') id: string,
+  ): Promise<{ status: number; data: User }> {
     const user = await this.getUserByIdHandler.execute({ id });
 
     if (!user) {
@@ -93,7 +101,10 @@ export class UserController {
       );
     }
 
-    return user;
+    return {
+      status: 200,
+      data: user,
+    };
   }
 
   @Get('riders/:userId')
@@ -118,6 +129,73 @@ export class UserController {
       status: 200,
       data: result,
     };
+  }
+
+  @Get('search/stable-or-instructor')
+  async findStableOrInstructorByFields(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+    @Query('name') name: string,
+    @Query('zipCode') zipCode: string,
+  ) {
+    const result = await this.findStableOrInstructorByFieldsHandler.execute({
+      fields: { name, zipCode },
+      page,
+      limit,
+    });
+    return {
+      message: 'Stable or instructor fetched successfully',
+      status: 200,
+      data: result,
+    };
+  }
+
+  @Get('find/stable-or-instructor')
+  async getStableAndTeachers(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ): Promise<{
+    message: string;
+    status: number;
+    data: {
+      users: User[];
+      currentPage: number;
+      total: number;
+      totalPages: number;
+    };
+  }> {
+    console.log('on Est la ');
+    const result = await this.getStableAndTeachersHandler.execute({
+      page,
+      limit,
+    });
+    console.log('RESULT', result);
+    return {
+      message: 'Stable and teachers fetched successfully',
+      status: 200,
+      data: result,
+    };
+  }
+
+  @Get('stable-or-instructor/:id')
+  async getStableOrInstructor(
+    @Param('id') id: string,
+    @Query('date') date: string,
+  ) {
+    try {
+      const result = await this.getStableOrInstructorHandler.execute({
+        id,
+        date: new Date(date),
+      });
+
+      return {
+        message: 'Stable or instructor fetched successfully',
+        status: 200,
+        data: result,
+      };
+    } catch (error) {
+      console.log('ERROR', error);
+    }
   }
 
   @Patch('activate/:id')
