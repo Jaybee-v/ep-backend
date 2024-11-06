@@ -10,7 +10,7 @@ export class JwtAdapter implements IAuthPort {
 
   generateToken(payload: any): string {
     return jwt.sign(payload, this.configService.get('JWT_SECRET'), {
-      expiresIn: '1h',
+      expiresIn: '7d',
     });
   }
 

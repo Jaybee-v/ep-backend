@@ -25,6 +25,9 @@ import { RevokeTokenHandler } from './application/auth/commands/revoke-token/rev
 import { AuthController } from './presentation/controllers/auth.controller';
 import { GetDayBookingsByUserIdHandler } from './application/booking/queries/get-day-bookings-by-user-id/get-day-bookings-by-user-id.handler';
 import { UpdateBookingHandler } from './application/booking/commands/update-booking/update-booking.handler';
+import { GetStableAndTeachersHandler } from './application/user/queries/get-stable-and-teachers/get-stable-and-teachers.handler';
+import { GetStableOrInstructorHandler } from './application/user/queries/get-stable-or-teacher/get-stable-or-teacher.handler';
+import { FindStableOrInstructorByFieldsHandler } from './application/user/queries/find-stable-or-instructor-by-fields/find-stable-or-instructor-by-fields.handler';
 
 @Module({
   imports: [
@@ -50,6 +53,9 @@ import { UpdateBookingHandler } from './application/booking/commands/update-book
     GetRidersHandler,
     RefreshTokenHandler,
     GetDayBookingsByUserIdHandler,
+    GetStableAndTeachersHandler,
+    GetStableOrInstructorHandler,
+    FindStableOrInstructorByFieldsHandler,
     // Patch Use Cases
     PatchUserHandler,
     UpdateBookingHandler,

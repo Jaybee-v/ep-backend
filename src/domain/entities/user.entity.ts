@@ -1,4 +1,5 @@
 import { Address } from './address.entity';
+import { Booking } from './booking.entity';
 
 export enum UserRole {
   STABLE = 'STABLE',
@@ -18,6 +19,7 @@ export class User {
     private readonly address: Address | null,
     private readonly stableId: string | null,
     private readonly instructorId: string | null,
+
     private readonly createdAt: Date,
     private readonly updatedAt: Date,
   ) {
@@ -72,6 +74,14 @@ export class User {
 
   public getInstructorId(): string | null {
     return this.instructorId;
+  }
+
+  public getCreatedAt(): Date {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt(): Date {
+    return this.updatedAt;
   }
 
   private validateEmail(email: string): void {
@@ -129,3 +139,30 @@ export class User {
     );
   }
 }
+
+export class FullStableOrInstructor {
+  id: string;
+  email: string;
+  emailVerified: boolean;
+  name: string | null;
+  familyName: string | null;
+  role: UserRole;
+  address: Address | null;
+  ridersCount: number;
+  bookings: Booking[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export type UserResponse = {
+  id: string;
+  email: string;
+  emailVerified: boolean;
+  name: string;
+  familyName: string;
+  role: UserRole;
+  stableId: string;
+  instructorId: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
