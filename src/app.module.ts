@@ -28,6 +28,9 @@ import { UpdateBookingHandler } from './application/booking/commands/update-book
 import { GetStableAndTeachersHandler } from './application/user/queries/get-stable-and-teachers/get-stable-and-teachers.handler';
 import { GetStableOrInstructorHandler } from './application/user/queries/get-stable-or-teacher/get-stable-or-teacher.handler';
 import { FindStableOrInstructorByFieldsHandler } from './application/user/queries/find-stable-or-instructor-by-fields/find-stable-or-instructor-by-fields.handler';
+import { PricingRepository } from './infrastructure/persistence/repositories/pricing.repository';
+import { GetPricingsByUserIdHandler } from './application/pricing/queries/get-pricings-by-user-id/get-pricings-by-user-id.handler';
+import { CreatePricingHandler } from './application/pricing/commands/create-pricing/create-pricing.handler';
 
 @Module({
   imports: [
@@ -43,6 +46,7 @@ import { FindStableOrInstructorByFieldsHandler } from './application/user/querie
     // Create Use Cases
     CreateUserHandler,
     CreateBookingHandler,
+    CreatePricingHandler,
     LoginHandler,
     // Get Use Cases
     GetUserByEmailHandler,
@@ -56,6 +60,7 @@ import { FindStableOrInstructorByFieldsHandler } from './application/user/querie
     GetStableAndTeachersHandler,
     GetStableOrInstructorHandler,
     FindStableOrInstructorByFieldsHandler,
+    GetPricingsByUserIdHandler,
     // Patch Use Cases
     PatchUserHandler,
     UpdateBookingHandler,
@@ -76,6 +81,10 @@ import { FindStableOrInstructorByFieldsHandler } from './application/user/querie
     {
       provide: 'ITokenRepository',
       useClass: TokenRepository,
+    },
+    {
+      provide: 'IPricingRepository',
+      useClass: PricingRepository,
     },
   ],
 })
