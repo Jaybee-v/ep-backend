@@ -6,6 +6,7 @@ import { JwtAdapter } from 'src/infrastructure/adapters/jwt.adapter';
 import { TokenRepository } from 'src/infrastructure/persistence/repositories/token.repository';
 import { RefreshTokenHandler } from 'src/application/auth/commands/refresh-token/refresh-token.handler';
 import { RevokeTokenHandler } from 'src/application/auth/commands/revoke-token/revoke-token.handler';
+import { GetPricingsByUserIdHandler } from 'src/application/pricing/queries/get-pricings-by-user-id/get-pricings-by-user-id.handler';
 
 @Module({
   imports: [PrismaModule],
@@ -14,6 +15,7 @@ import { RevokeTokenHandler } from 'src/application/auth/commands/revoke-token/r
     LoginHandler,
     RefreshTokenHandler,
     RevokeTokenHandler,
+    GetPricingsByUserIdHandler,
     {
       provide: 'IAuthPort',
       useClass: JwtAdapter,

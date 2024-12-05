@@ -9,6 +9,8 @@ import { RefreshTokenCommand } from 'src/application/auth/commands/refresh-token
 import { Auth } from 'googleapis';
 import { AuthRequest } from 'src/domain/types/auth-request.type';
 import { GetUserByIdHandler } from 'src/application/user/queries/get-user-by-id/get-user-by-id.handler';
+import { GetPricingsByUserIdHandler } from 'src/application/pricing/queries/get-pricings-by-user-id/get-pricings-by-user-id.handler';
+import { Pricing } from 'src/domain/entities/pricing.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -17,6 +19,7 @@ export class AuthController {
     private readonly refreshTokenHandler: RefreshTokenHandler,
     private readonly revokeTokenHandler: RevokeTokenHandler,
     private readonly getUserByIdHandler: GetUserByIdHandler,
+    private readonly getPricingsByUserIdHandler: GetPricingsByUserIdHandler,
   ) {}
 
   @Post('login')
@@ -32,9 +35,24 @@ export class AuthController {
     const user = await this.getUserByIdHandler.execute({ id: req.user.id });
     console.log('user', user);
     if (user) {
+      let pricings: Pricing[] = [];
+      let pricingCompleted: boolean = false;
+      if (user.getRole() !== 'RIDER') {
+        pricings = await this.getPricingsByUserIdHandler.execute({
+          userId: user.getId(),
+        });
+        if (pricings.length > 0) {
+          pricingCompleted = true;
+        }
+      }
+
+      const _user = {
+        ...user,
+        pricingCompleted,
+      };
       return {
         status: 200,
-        data: user,
+        data: _user,
         message: 'User is authenticated',
       };
     }

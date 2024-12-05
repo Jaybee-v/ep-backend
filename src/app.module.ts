@@ -31,6 +31,7 @@ import { FindStableOrInstructorByFieldsHandler } from './application/user/querie
 import { PricingRepository } from './infrastructure/persistence/repositories/pricing.repository';
 import { GetPricingsByUserIdHandler } from './application/pricing/queries/get-pricings-by-user-id/get-pricings-by-user-id.handler';
 import { CreatePricingHandler } from './application/pricing/commands/create-pricing/create-pricing.handler';
+import { PricingController } from './presentation/controllers/pricing.controller';
 
 @Module({
   imports: [
@@ -41,7 +42,12 @@ import { CreatePricingHandler } from './application/pricing/commands/create-pric
       isGlobal: true,
     }),
   ],
-  controllers: [UserController, BookingController, AuthController],
+  controllers: [
+    UserController,
+    BookingController,
+    AuthController,
+    PricingController,
+  ],
   providers: [
     // Create Use Cases
     CreateUserHandler,

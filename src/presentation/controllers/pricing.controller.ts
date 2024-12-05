@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CreatePricingHandler } from 'src/application/pricing/commands/create-pricing/create-pricing.handler';
 import { GetPricingsByUserIdHandler } from 'src/application/pricing/queries/get-pricings-by-user-id/get-pricings-by-user-id.handler';
 import { CreatePricingDto } from '../dtos/create-pricing.dto';
 import { CreatePricingCommand } from 'src/application/pricing/commands/create-pricing/create-pricing.command';
-import { PricingType } from '@prisma/client';
+import { PricingType } from 'src/domain/entities/pricing.entity';
 
 @Controller('pricing')
 export class PricingController {
@@ -17,11 +17,12 @@ export class PricingController {
     try {
       const command = new CreatePricingCommand(
         body.userId,
-        body.type,
+        PricingType.FREE,
         body.price,
         body.label,
-        body.description,
+        body.description || null,
       );
+      console.log('COMMAND', command);
       const result = await this.createPricingHandler.execute(command);
 
       return {
