@@ -1,4 +1,4 @@
-import { InvalidPriceException } from '../exceptions/price.exception';
+import { InvalidPriceException } from '../exceptions/price/price.exception';
 
 export enum PricingType {
   FREE = 'FREE',

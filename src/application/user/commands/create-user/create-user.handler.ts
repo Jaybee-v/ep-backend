@@ -5,7 +5,7 @@ import { User, UserRole } from 'src/domain/entities/user.entity';
 import {
   InvalidAddressException,
   UserAlreadyExistsException,
-} from 'src/domain/exceptions/user.exceptions';
+} from 'src/domain/exceptions/user/user.exceptions';
 import { SendActivationEmailUsecase } from 'src/application/email/send-activation-email.usecase';
 import { Address } from 'src/domain/entities/address.entity';
 import { hash } from 'src/infrastructure/libs/auth/password';

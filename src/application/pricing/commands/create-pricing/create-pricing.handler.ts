@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IPricingRepository } from 'src/domain/repositories/pricing.interface';
 import { CreatePricingCommand } from './create-pricing.command';
 import { Pricing } from 'src/domain/entities/pricing.entity';
-import { PricingLimitExceeded } from 'src/domain/exceptions/price.exception';
+import { PricingLimitExceeded } from 'src/domain/exceptions/price/price.exception';
 
 @Injectable()
 export class CreatePricingHandler {
