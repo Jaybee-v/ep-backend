@@ -32,6 +32,10 @@ import { PricingRepository } from './infrastructure/persistence/repositories/pri
 import { GetPricingsByUserIdHandler } from './application/pricing/queries/get-pricings-by-user-id/get-pricings-by-user-id.handler';
 import { CreatePricingHandler } from './application/pricing/commands/create-pricing/create-pricing.handler';
 import { PricingController } from './presentation/controllers/pricing.controller';
+import { BookingSubscriptionRepository } from './infrastructure/persistence/repositories/booking-subscription.repository';
+import { GetBookingSubscriptionsByBookingIdHandler } from './application/booking-subscription/queries/get-by-booking-id/get-by-booking-id.handler';
+import { CreateBookingSubscriptionHandler } from './application/booking-subscription/commands/create-booking-subscription/create-booking-subscription.handler';
+import { BookingSubscriptionController } from './presentation/controllers/booking-subscription.controller';
 
 @Module({
   imports: [
@@ -47,12 +51,14 @@ import { PricingController } from './presentation/controllers/pricing.controller
     BookingController,
     AuthController,
     PricingController,
+    BookingSubscriptionController,
   ],
   providers: [
     // Create Use Cases
     CreateUserHandler,
     CreateBookingHandler,
     CreatePricingHandler,
+    CreateBookingSubscriptionHandler,
     LoginHandler,
     // Get Use Cases
     GetUserByEmailHandler,
@@ -67,6 +73,7 @@ import { PricingController } from './presentation/controllers/pricing.controller
     GetStableOrInstructorHandler,
     FindStableOrInstructorByFieldsHandler,
     GetPricingsByUserIdHandler,
+    GetBookingSubscriptionsByBookingIdHandler,
     // Patch Use Cases
     PatchUserHandler,
     UpdateBookingHandler,
@@ -79,6 +86,10 @@ import { PricingController } from './presentation/controllers/pricing.controller
     {
       provide: 'IBookingRepository',
       useClass: BookingRepository,
+    },
+    {
+      provide: 'IBookingSubscriptionRepository',
+      useClass: BookingSubscriptionRepository,
     },
     {
       provide: 'IAuthPort',

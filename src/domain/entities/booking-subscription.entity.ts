@@ -52,4 +52,20 @@ export class BookingSubscription {
   public isOnWaitingList(): boolean {
     return this.status === SubscriptionStatus.WAITING_LIST;
   }
+
+  static create(params: {
+    bookingId: number;
+    userId: string;
+    position: number;
+  }) {
+    return new BookingSubscription(
+      undefined,
+      params.bookingId,
+      params.userId,
+      SubscriptionStatus.PENDING,
+      params.position,
+      new Date(),
+      new Date(),
+    );
+  }
 }
