@@ -28,10 +28,7 @@ enum SubscriptionStatus {
   NO_SHOW
 }
 
-enum PricingType {
-  FREE
-  CUSTOM
-}
+
 
 model User {
   id            String   @id @default(cuid())
@@ -128,10 +125,11 @@ model RefreshToken {
 
   @@index([userId])
 }
+
 model Pricing {
   id            String   @id @default(cuid())
   userId        String
-  type PricingType @default(FREE)
+  type String @default("FREE")
   price         Float?
   label         String
   description   String?

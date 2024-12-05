@@ -12,9 +12,11 @@ export class CreatePricingHandler {
   ) {}
 
   async execute(command: CreatePricingCommand): Promise<string> {
+    console.log('STEP 1');
     const checkPricingUser = await this.pricingRepository.findAllByUserId(
       command.userId,
     );
+    console.log('STEP 2');
 
     if (checkPricingUser.length === 2) {
       throw new PricingLimitExceeded('Pricing limit exceeded');
@@ -27,6 +29,7 @@ export class CreatePricingHandler {
       label: command.label,
       description: command.description,
     });
+    console.log('STEP 3');
 
     const savedPricing = await this.pricingRepository.save(pricing);
 

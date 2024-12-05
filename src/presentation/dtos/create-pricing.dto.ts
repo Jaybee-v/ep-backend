@@ -14,10 +14,6 @@ export class CreatePricingDto {
   @IsOptional()
   description: string;
 
-  @IsString()
-  @IsNotEmpty()
-  type: PricingType;
-
   @IsNumber()
   @IsNotEmpty()
   price: number;
