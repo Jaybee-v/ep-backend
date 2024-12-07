@@ -35,4 +35,17 @@ export class BookingSubscriptionRepository
 
     return subscriptions.map(BookingSubscriptionMapper.toDomain);
   }
+
+  async getUserSubscriptionOnBooking(
+    userId: string,
+    bookingId: number,
+  ): Promise<BookingSubscription | null> {
+    const subscription = await this.prisma.bookingSubscription.findFirst({
+      where: { userId, bookingId },
+    });
+
+    return subscription
+      ? BookingSubscriptionMapper.toDomain(subscription)
+      : null;
+  }
 }

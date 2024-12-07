@@ -17,6 +17,8 @@ import { GetWeekBookingsHandler } from 'src/application/booking/queries/get-week
 import { GetDayBookingsByUserIdHandler } from 'src/application/booking/queries/get-day-bookings-by-user-id/get-day-bookings-by-user-id.handler';
 import { UpdateBookingHandler } from 'src/application/booking/commands/update-booking/update-booking.handler';
 import { UpdateBookingCommand } from 'src/application/booking/commands/update-booking/update-booking.command';
+import { BookingFilling } from 'src/domain/entities/booking.entity';
+import { GetUserAndSubByBookingIdHandler } from 'src/application/booking-subscription/queries/get-user-and-sub-by-booking-id/get-user-and-sub-by-booking-id.handler';
 
 @Controller('bookings')
 export class BookingController {
@@ -27,6 +29,7 @@ export class BookingController {
     private readonly getWeekBookingsHandler: GetWeekBookingsHandler,
     private readonly getDayBookingsHandler: GetDayBookingsByUserIdHandler,
     private readonly updateBookingHandler: UpdateBookingHandler,
+    private readonly getUserAndSubByBookingIdHandler: GetUserAndSubByBookingIdHandler,
   ) {}
 
   @Post()
@@ -44,6 +47,7 @@ export class BookingController {
         createBookingDto.start,
         createBookingDto.end,
         createBookingDto.maxParticipants,
+
         createBookingDto.requiredLevel,
       );
 
@@ -59,6 +63,20 @@ export class BookingController {
         500,
       );
     }
+  }
+
+  @Get('owner/:id')
+  async getFullBooking(@Param('id') id: string) {
+    const booking = await this.getBookingByIdHandler.execute({
+      id: parseInt(id),
+    });
+    const result = await this.getUserAndSubByBookingIdHandler.execute({
+      id: parseInt(id),
+    });
+    return {
+      status: 200,
+      data: { booking, subscriptions: result },
+    };
   }
 
   @Get(':id')
@@ -99,6 +117,7 @@ export class BookingController {
         createBookingDto.start,
         createBookingDto.end,
         createBookingDto.maxParticipants,
+
         createBookingDto.requiredLevel,
       );
       console.log('COMMAND', command);

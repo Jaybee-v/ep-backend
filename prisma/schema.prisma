@@ -26,9 +26,13 @@ enum SubscriptionStatus {
   CANCELLED
   WAITING_LIST
   NO_SHOW
+  REFUSED
 }
 
-
+enum BookingFilling {
+  NOT_FULL
+  FULL
+}
 
 model User {
   id            String   @id @default(cuid())
@@ -74,6 +78,7 @@ model Booking {
   end String
   status BookingStatus @default(PENDING) 
   maxParticipants Int    @default(1) 
+  filling BookingFilling @default(NOT_FULL)
   requiredLevel Int @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
