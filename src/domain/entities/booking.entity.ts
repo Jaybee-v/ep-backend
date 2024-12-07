@@ -7,6 +7,11 @@ export enum BookingStatus {
   COMPLETED = 'COMPLETED', // Cours terminé
 }
 
+export enum BookingFilling {
+  NOT_FULL = 'NOT_FULL', // Pas encore commencé
+  FULL = 'FULL', // Completement rempli
+}
+
 export class Booking {
   constructor(
     private readonly id: number,
@@ -20,6 +25,7 @@ export class Booking {
     private readonly end: string,
     private readonly status: BookingStatus,
     private readonly maxParticipants: number,
+    private readonly filling: BookingFilling,
     private readonly requiredLevel: number,
     private readonly createdAt: Date,
     private readonly updatedAt: Date,
@@ -96,6 +102,10 @@ export class Booking {
     return this.maxParticipants;
   }
 
+  public getFilling(): BookingFilling {
+    return this.filling;
+  }
+
   public getRequiredLevel(): number {
     return this.requiredLevel;
   }
@@ -132,6 +142,7 @@ export class Booking {
       params.end,
       BookingStatus.PENDING,
       params.maxParticipants,
+      BookingFilling.NOT_FULL,
       params.requiredLevel,
       new Date(),
       new Date(),
@@ -150,6 +161,7 @@ export class Booking {
     end: string;
     status: BookingStatus;
     maxParticipants: number;
+    filling: BookingFilling;
     requiredLevel: number;
     createdAt: Date;
   }): Booking {
@@ -165,6 +177,7 @@ export class Booking {
       params.end,
       params.status,
       params.maxParticipants,
+      params.filling,
       params.requiredLevel,
       params.createdAt,
       new Date(),

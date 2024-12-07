@@ -1,3 +1,5 @@
+import { BookingFilling } from 'src/domain/entities/booking.entity';
+
 export class UpdateBookingCommand {
   constructor(
     public readonly id: number,
@@ -10,6 +12,7 @@ export class UpdateBookingCommand {
     public readonly start: string,
     public readonly end: string,
     public readonly maxParticipants: number,
+
     public readonly requiredLevel: number,
   ) {}
 }

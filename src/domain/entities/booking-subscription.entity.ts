@@ -4,6 +4,7 @@ export enum SubscriptionStatus {
   CANCELLED = 'CANCELLED',
   WAITING_LIST = 'WAITING_LIST',
   NO_SHOW = 'NO_SHOW',
+  REFUSED = 'REFUSED',
 }
 
 export class BookingSubscription {

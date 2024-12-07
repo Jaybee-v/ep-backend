@@ -36,10 +36,14 @@ import { BookingSubscriptionRepository } from './infrastructure/persistence/repo
 import { GetBookingSubscriptionsByBookingIdHandler } from './application/booking-subscription/queries/get-by-booking-id/get-by-booking-id.handler';
 import { CreateBookingSubscriptionHandler } from './application/booking-subscription/commands/create-booking-subscription/create-booking-subscription.handler';
 import { BookingSubscriptionController } from './presentation/controllers/booking-subscription.controller';
+import { GetUserSubscriptionOnBookingHandler } from './application/booking-subscription/queries/get-user-sub-on-booking/get-user-sub-on-booking.handler';
+import { ScheduleModule } from '@nestjs/schedule';
+import { GetUserAndSubByBookingIdHandler } from './application/booking-subscription/queries/get-user-and-sub-by-booking-id/get-user-and-sub-by-booking-id.handler';
 
 @Module({
   imports: [
     PrismaModule,
+    ScheduleModule.forRoot(),
     EmailModule,
     ConfigModule.forRoot({
       envFilePath: ['.env'],
@@ -74,6 +78,8 @@ import { BookingSubscriptionController } from './presentation/controllers/bookin
     FindStableOrInstructorByFieldsHandler,
     GetPricingsByUserIdHandler,
     GetBookingSubscriptionsByBookingIdHandler,
+    GetUserSubscriptionOnBookingHandler,
+    GetUserAndSubByBookingIdHandler,
     // Patch Use Cases
     PatchUserHandler,
     UpdateBookingHandler,
