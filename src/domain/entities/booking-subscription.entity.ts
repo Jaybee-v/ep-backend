@@ -4,6 +4,7 @@ export enum SubscriptionStatus {
   CANCELLED = 'CANCELLED',
   WAITING_LIST = 'WAITING_LIST',
   NO_SHOW = 'NO_SHOW',
+  REFUSED = 'REFUSED',
 }
 
 export class BookingSubscription {
@@ -51,5 +52,21 @@ export class BookingSubscription {
 
   public isOnWaitingList(): boolean {
     return this.status === SubscriptionStatus.WAITING_LIST;
+  }
+
+  static create(params: {
+    bookingId: number;
+    userId: string;
+    position: number;
+  }) {
+    return new BookingSubscription(
+      undefined,
+      params.bookingId,
+      params.userId,
+      SubscriptionStatus.PENDING,
+      params.position,
+      new Date(),
+      new Date(),
+    );
   }
 }

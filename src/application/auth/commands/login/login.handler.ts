@@ -3,8 +3,8 @@ import { IAuthPort } from 'src/domain/ports/auth.port';
 import { ITokenRepository } from 'src/domain/repositories/token.repository.interface';
 import { IUserRepository } from 'src/domain/repositories/user.repository.interface';
 import { LoginCommand } from './login.command';
-import { InvalidCredentialsException } from 'src/domain/exceptions/auth.exception';
-import { EmailNotVerifiedException } from 'src/domain/exceptions/user.exceptions';
+import { InvalidCredentialsException } from 'src/domain/exceptions/auth/auth.exception';
+import { EmailNotVerifiedException } from 'src/domain/exceptions/user/user.exceptions';
 
 export interface AuthResult {
   accessToken: string;

@@ -29,6 +29,7 @@ export class UpdateBookingHandler {
       end: command.end,
       status: booking.getStatus(),
       maxParticipants: command.maxParticipants,
+      filling: booking.getFilling(),
       requiredLevel: command.requiredLevel,
       createdAt: booking.getCreatedAt(),
     });

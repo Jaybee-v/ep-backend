@@ -3,8 +3,8 @@ import { IAuthPort } from 'src/domain/ports/auth.port';
 import { ITokenRepository } from 'src/domain/repositories/token.repository.interface';
 import { IUserRepository } from 'src/domain/repositories/user.repository.interface';
 import { RefreshTokenCommand } from './refresh-token.command';
-import { UserNotFoundException } from 'src/domain/exceptions/user.exceptions';
-import { InvalidRefreshTokenException } from 'src/domain/exceptions/auth.exception';
+import { UserNotFoundException } from 'src/domain/exceptions/user/user.exceptions';
+import { InvalidRefreshTokenException } from 'src/domain/exceptions/auth/auth.exception';
 
 @Injectable()
 export class RefreshTokenHandler {

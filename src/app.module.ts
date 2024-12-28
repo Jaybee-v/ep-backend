@@ -28,21 +28,41 @@ import { UpdateBookingHandler } from './application/booking/commands/update-book
 import { GetStableAndTeachersHandler } from './application/user/queries/get-stable-and-teachers/get-stable-and-teachers.handler';
 import { GetStableOrInstructorHandler } from './application/user/queries/get-stable-or-teacher/get-stable-or-teacher.handler';
 import { FindStableOrInstructorByFieldsHandler } from './application/user/queries/find-stable-or-instructor-by-fields/find-stable-or-instructor-by-fields.handler';
+import { PricingRepository } from './infrastructure/persistence/repositories/pricing.repository';
+import { GetPricingsByUserIdHandler } from './application/pricing/queries/get-pricings-by-user-id/get-pricings-by-user-id.handler';
+import { CreatePricingHandler } from './application/pricing/commands/create-pricing/create-pricing.handler';
+import { PricingController } from './presentation/controllers/pricing.controller';
+import { BookingSubscriptionRepository } from './infrastructure/persistence/repositories/booking-subscription.repository';
+import { GetBookingSubscriptionsByBookingIdHandler } from './application/booking-subscription/queries/get-by-booking-id/get-by-booking-id.handler';
+import { CreateBookingSubscriptionHandler } from './application/booking-subscription/commands/create-booking-subscription/create-booking-subscription.handler';
+import { BookingSubscriptionController } from './presentation/controllers/booking-subscription.controller';
+import { GetUserSubscriptionOnBookingHandler } from './application/booking-subscription/queries/get-user-sub-on-booking/get-user-sub-on-booking.handler';
+import { ScheduleModule } from '@nestjs/schedule';
+import { GetUserAndSubByBookingIdHandler } from './application/booking-subscription/queries/get-user-and-sub-by-booking-id/get-user-and-sub-by-booking-id.handler';
 
 @Module({
   imports: [
     PrismaModule,
+    ScheduleModule.forRoot(),
     EmailModule,
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       isGlobal: true,
     }),
   ],
-  controllers: [UserController, BookingController, AuthController],
+  controllers: [
+    UserController,
+    BookingController,
+    AuthController,
+    PricingController,
+    BookingSubscriptionController,
+  ],
   providers: [
     // Create Use Cases
     CreateUserHandler,
     CreateBookingHandler,
+    CreatePricingHandler,
+    CreateBookingSubscriptionHandler,
     LoginHandler,
     // Get Use Cases
     GetUserByEmailHandler,
@@ -56,6 +76,10 @@ import { FindStableOrInstructorByFieldsHandler } from './application/user/querie
     GetStableAndTeachersHandler,
     GetStableOrInstructorHandler,
     FindStableOrInstructorByFieldsHandler,
+    GetPricingsByUserIdHandler,
+    GetBookingSubscriptionsByBookingIdHandler,
+    GetUserSubscriptionOnBookingHandler,
+    GetUserAndSubByBookingIdHandler,
     // Patch Use Cases
     PatchUserHandler,
     UpdateBookingHandler,
@@ -70,12 +94,20 @@ import { FindStableOrInstructorByFieldsHandler } from './application/user/querie
       useClass: BookingRepository,
     },
     {
+      provide: 'IBookingSubscriptionRepository',
+      useClass: BookingSubscriptionRepository,
+    },
+    {
       provide: 'IAuthPort',
       useClass: JwtAdapter,
     },
     {
       provide: 'ITokenRepository',
       useClass: TokenRepository,
+    },
+    {
+      provide: 'IPricingRepository',
+      useClass: PricingRepository,
     },
   ],
 })
