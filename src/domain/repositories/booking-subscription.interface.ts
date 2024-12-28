@@ -7,4 +7,8 @@ export interface IBookingSubscriptionRepository {
     userId: string,
     bookingId: number,
   ): Promise<BookingSubscription | null>;
+  getRiderSubscriptions(
+    userId: string,
+    date: Date,
+  ): Promise<BookingSubscription[]>;
 }

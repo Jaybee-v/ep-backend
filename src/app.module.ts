@@ -39,6 +39,8 @@ import { BookingSubscriptionController } from './presentation/controllers/bookin
 import { GetUserSubscriptionOnBookingHandler } from './application/booking-subscription/queries/get-user-sub-on-booking/get-user-sub-on-booking.handler';
 import { ScheduleModule } from '@nestjs/schedule';
 import { GetUserAndSubByBookingIdHandler } from './application/booking-subscription/queries/get-user-and-sub-by-booking-id/get-user-and-sub-by-booking-id.handler';
+import { GetAllRiderSubHandler } from './application/booking-subscription/queries/get-all-riders-sub/get-all-rider-sub.handler';
+import { GetRiderSubscriptionsHandler } from './application/booking-subscription/queries/get-rider-subscriptions/get-rider-subscriptions.handler';
 
 @Module({
   imports: [
@@ -80,6 +82,8 @@ import { GetUserAndSubByBookingIdHandler } from './application/booking-subscript
     GetBookingSubscriptionsByBookingIdHandler,
     GetUserSubscriptionOnBookingHandler,
     GetUserAndSubByBookingIdHandler,
+    GetAllRiderSubHandler,
+    GetRiderSubscriptionsHandler,
     // Patch Use Cases
     PatchUserHandler,
     UpdateBookingHandler,
