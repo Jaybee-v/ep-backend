@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { BookingSubscription } from 'src/domain/entities/booking-subscription.entity';
 import { Injectable } from '@nestjs/common';
 import { BookingSubscriptionMapper } from '../mappers/booking-subscription.mapper';
+import { Booking, BookingStatus } from 'src/domain/entities/booking.entity';
 
 @Injectable()
 export class BookingSubscriptionRepository
@@ -47,5 +48,27 @@ export class BookingSubscriptionRepository
     return subscription
       ? BookingSubscriptionMapper.toDomain(subscription)
       : null;
+  }
+
+  async getRiderSubscriptions(
+    userId: string,
+    date: Date,
+  ): Promise<BookingSubscription[]> {
+    const subscriptions = await this.prisma.bookingSubscription.findMany({
+      where: {
+        userId,
+        booking: {
+          date: {
+            gte: date,
+            lte: new Date(),
+          },
+          status: {
+            in: [BookingStatus.CONFIRMED, BookingStatus.COMPLETED],
+          },
+        },
+      },
+    });
+
+    return subscriptions.map(BookingSubscriptionMapper.toDomain);
   }
 }
