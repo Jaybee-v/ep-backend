@@ -44,6 +44,7 @@ model User {
   role          UserRole @default(RIDER)  // Utilisation de l'enum
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  lastSeen      DateTime @default(now())
 
   // Relations
   stableId     String?

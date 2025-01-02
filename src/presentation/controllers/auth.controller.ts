@@ -1,16 +1,15 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { LoginCommand } from 'src/application/auth/commands/login/login.command';
 import { LoginHandler } from 'src/application/auth/commands/login/login.handler';
+import { RefreshTokenCommand } from 'src/application/auth/commands/refresh-token/refresh-token.command';
 import { RefreshTokenHandler } from 'src/application/auth/commands/refresh-token/refresh-token.handler';
 import { RevokeTokenHandler } from 'src/application/auth/commands/revoke-token/revoke-token.handler';
-import { JwtAuthGuard } from '../guards/auth.guard';
-import { RevokeTokenCommand } from 'src/application/auth/commands/revoke-token/revoke-token.command';
-import { RefreshTokenCommand } from 'src/application/auth/commands/refresh-token/refresh-token.command';
-import { Auth } from 'googleapis';
-import { AuthRequest } from 'src/domain/types/auth-request.type';
-import { GetUserByIdHandler } from 'src/application/user/queries/get-user-by-id/get-user-by-id.handler';
 import { GetPricingsByUserIdHandler } from 'src/application/pricing/queries/get-pricings-by-user-id/get-pricings-by-user-id.handler';
+import { PatchUserHandler } from 'src/application/user/commands/patch-user/patch-user.handler';
+import { GetUserByIdHandler } from 'src/application/user/queries/get-user-by-id/get-user-by-id.handler';
 import { Pricing } from 'src/domain/entities/pricing.entity';
+import { AuthRequest } from 'src/domain/types/auth-request.type';
+import { JwtAuthGuard } from '../guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -20,6 +19,7 @@ export class AuthController {
     private readonly revokeTokenHandler: RevokeTokenHandler,
     private readonly getUserByIdHandler: GetUserByIdHandler,
     private readonly getPricingsByUserIdHandler: GetPricingsByUserIdHandler,
+    private readonly updateUserHandler: PatchUserHandler,
   ) {}
 
   @Post('login')
@@ -45,7 +45,11 @@ export class AuthController {
           pricingCompleted = true;
         }
       }
-
+      await this.updateUserHandler.execute({
+        key: 'lastSeen',
+        value: '',
+        id: user.getId(),
+      });
       const _user = {
         ...user,
         pricingCompleted,

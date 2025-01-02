@@ -36,6 +36,7 @@ export class UserMapper {
         raw.instructorId,
         raw.createdAt,
         raw.updatedAt,
+        raw.lastSeen,
       );
     } else {
       user = new User(
@@ -51,6 +52,7 @@ export class UserMapper {
         raw.instructorId,
         raw.createdAt,
         raw.updatedAt,
+        raw.lastSeen,
       );
     }
     return user;
@@ -107,6 +109,7 @@ export class UserMapper {
       bookings,
       createdAt: userFound.getCreatedAt(),
       updatedAt: userFound.getUpdatedAt(),
+      lastSeen: userFound.getLastSeen(),
     };
 
     return user;

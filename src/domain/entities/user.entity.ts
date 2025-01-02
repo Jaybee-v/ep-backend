@@ -22,6 +22,7 @@ export class User {
 
     private readonly createdAt: Date,
     private readonly updatedAt: Date,
+    private readonly lastSeen: Date,
   ) {
     this.validateEmail(email);
     this.validateRole();
@@ -84,6 +85,10 @@ export class User {
     return this.updatedAt;
   }
 
+  public getLastSeen(): Date {
+    return this.lastSeen;
+  }
+
   private validateEmail(email: string): void {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -120,6 +125,7 @@ export class User {
         params.instructorId || null,
         new Date(),
         new Date(),
+        new Date(),
       );
     }
 
@@ -134,6 +140,7 @@ export class User {
       params.address || null,
       null,
       null,
+      new Date(),
       new Date(),
       new Date(),
     );
@@ -152,6 +159,7 @@ export class FullStableOrInstructor {
   bookings: Booking[];
   createdAt: Date;
   updatedAt: Date;
+  lastSeen: Date;
 }
 
 export type UserResponse = {
@@ -165,4 +173,5 @@ export type UserResponse = {
   instructorId: string;
   createdAt: Date;
   updatedAt: Date;
+  lastSeen: Date;
 };

@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { UserResponse } from 'src/domain/entities/user.entity';
 import { IUserRepository } from 'src/domain/repositories/user.repository.interface';
 import { FindStableOrInstructorByFieldsQuery } from './find-stable-or-instructor-by-fields.query';
-import { User } from '@prisma/client';
-import { UserResponse } from 'src/domain/entities/user.entity';
 
 @Injectable()
 export class FindStableOrInstructorByFieldsHandler {
@@ -40,6 +39,7 @@ export class FindStableOrInstructorByFieldsHandler {
         instructorId: user.getInstructorId(),
         createdAt: user.getCreatedAt(),
         updatedAt: user.getUpdatedAt(),
+        lastSeen: user.getLastSeen(),
       })),
     };
   }
