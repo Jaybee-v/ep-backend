@@ -38,4 +38,8 @@ export interface IUserRepository {
     id: string,
     date: Date,
   ): Promise<FullStableOrInstructor>;
+<<<<<<< HEAD
+=======
+  getRidersCountByUserId(userId: string): Promise<number>;
+>>>>>>> feat/home-controller
 }

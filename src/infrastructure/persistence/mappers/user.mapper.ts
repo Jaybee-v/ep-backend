@@ -36,6 +36,10 @@ export class UserMapper {
         raw.instructorId,
         raw.createdAt,
         raw.updatedAt,
+<<<<<<< HEAD
+=======
+        raw.lastSeen,
+>>>>>>> feat/home-controller
       );
     } else {
       user = new User(
@@ -51,6 +55,10 @@ export class UserMapper {
         raw.instructorId,
         raw.createdAt,
         raw.updatedAt,
+<<<<<<< HEAD
+=======
+        raw.lastSeen,
+>>>>>>> feat/home-controller
       );
     }
     return user;
@@ -107,6 +115,10 @@ export class UserMapper {
       bookings,
       createdAt: userFound.getCreatedAt(),
       updatedAt: userFound.getUpdatedAt(),
+<<<<<<< HEAD
+=======
+      lastSeen: userFound.getLastSeen(),
+>>>>>>> feat/home-controller
     };
 
     return user;

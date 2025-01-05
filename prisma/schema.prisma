@@ -44,6 +44,10 @@ model User {
   role          UserRole @default(RIDER)  // Utilisation de l'enum
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+<<<<<<< HEAD
+=======
+  lastSeen      DateTime @default(now())
+>>>>>>> feat/home-controller
 
   // Relations
   stableId     String?
