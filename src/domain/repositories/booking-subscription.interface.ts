@@ -7,6 +7,7 @@ export interface IBookingSubscriptionRepository {
     userId: string,
     bookingId: number,
   ): Promise<BookingSubscription | null>;
+  getSubscriptionsCountThisWeekByUserId(userId: string): Promise<number>;
   getRiderSubscriptions(
     userId: string,
     date: Date,

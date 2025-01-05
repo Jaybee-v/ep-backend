@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { IBookingRepository } from 'src/domain/repositories/booking.repository.interface';
-import { PrismaService } from '../prisma/prisma.service';
-import { Booking, BookingStatus } from 'src/domain/entities/booking.entity';
-import { BookingMapper } from '../mappers/booking.mapper';
 import { Cron } from '@nestjs/schedule';
+import { Booking, BookingStatus } from 'src/domain/entities/booking.entity';
+import { IBookingRepository } from 'src/domain/repositories/booking.repository.interface';
+import { WeekDateCalculator } from 'src/domain/shared/utils/WeekDateCalculator';
+import { BookingMapper } from '../mappers/booking.mapper';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class BookingRepository implements IBookingRepository {
@@ -84,6 +85,34 @@ export class BookingRepository implements IBookingRepository {
       },
     });
 
+    return bookings.map((booking) => BookingMapper.toDomain(booking));
+  }
+
+  async getBookingsCountThisWeek(userId: string): Promise<number> {
+    const weekRange = WeekDateCalculator.getCurrentWeekRange();
+    const bookings = await this.prisma.booking.count({
+      where: {
+        userId,
+        date: {
+          gte: weekRange.getStart(),
+          lte: weekRange.getEnd(),
+        },
+      },
+    });
+    return bookings;
+  }
+
+  async getBookingsThisWeek(userId: string): Promise<Booking[]> {
+    const weekRange = WeekDateCalculator.getCurrentWeekRange();
+    const bookings = await this.prisma.booking.findMany({
+      where: {
+        userId,
+        date: {
+          gte: weekRange.getStart(),
+          lte: weekRange.getEnd(),
+        },
+      },
+    });
     return bookings.map((booking) => BookingMapper.toDomain(booking));
   }
 

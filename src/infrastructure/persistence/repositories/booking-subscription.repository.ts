@@ -1,9 +1,10 @@
-import { IBookingSubscriptionRepository } from 'src/domain/repositories/booking-subscription.interface';
-import { PrismaService } from '../prisma/prisma.service';
-import { BookingSubscription } from 'src/domain/entities/booking-subscription.entity';
 import { Injectable } from '@nestjs/common';
+import { BookingSubscription } from 'src/domain/entities/booking-subscription.entity';
+import { BookingStatus } from 'src/domain/entities/booking.entity';
+import { IBookingSubscriptionRepository } from 'src/domain/repositories/booking-subscription.interface';
+import { WeekDateCalculator } from 'src/domain/shared/utils/WeekDateCalculator';
 import { BookingSubscriptionMapper } from '../mappers/booking-subscription.mapper';
-import { Booking, BookingStatus } from 'src/domain/entities/booking.entity';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class BookingSubscriptionRepository
@@ -70,5 +71,24 @@ export class BookingSubscriptionRepository
     });
 
     return subscriptions.map(BookingSubscriptionMapper.toDomain);
+  }
+
+  async getSubscriptionsCountThisWeekByUserId(userId: string): Promise<number> {
+    const weekRange = WeekDateCalculator.getCurrentWeekRange();
+    const subscriptions = await this.prisma.bookingSubscription.count({
+      where: {
+        booking: {
+          userId,
+          date: {
+            gte: weekRange.getStart(),
+            lte: weekRange.getEnd(),
+          },
+        },
+      },
+    });
+    console.log('========');
+    console.log(subscriptions);
+    console.log('========');
+    return subscriptions;
   }
 }

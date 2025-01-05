@@ -38,4 +38,5 @@ export interface IUserRepository {
     id: string,
     date: Date,
   ): Promise<FullStableOrInstructor>;
+  getRidersCountByUserId(userId: string): Promise<number>;
 }

@@ -31,9 +31,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('is-authenticated')
   async isAuthenticated(@Req() req: AuthRequest) {
-    console.log('req.user', req.user);
     const user = await this.getUserByIdHandler.execute({ id: req.user.id });
-    console.log('user', user);
     if (user) {
       let pricings: Pricing[] = [];
       let pricingCompleted: boolean = false;

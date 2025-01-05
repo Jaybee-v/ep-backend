@@ -182,6 +182,22 @@ export class UserRepository implements IUserRepository {
     );
   }
 
+  async getRidersCountByUserId(userId: string): Promise<number> {
+    return this.prisma.user.count({
+      where: {
+        role: 'RIDER',
+        OR: [
+          {
+            stableId: userId,
+          },
+          {
+            instructorId: userId,
+          },
+        ],
+      },
+    });
+  }
+
   async patchUser(
     key: string,
     value: string | boolean,
