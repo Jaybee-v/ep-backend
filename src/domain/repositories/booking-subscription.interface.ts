@@ -7,10 +7,7 @@ export interface IBookingSubscriptionRepository {
     userId: string,
     bookingId: number,
   ): Promise<BookingSubscription | null>;
-<<<<<<< HEAD
-=======
   getSubscriptionsCountThisWeekByUserId(userId: string): Promise<number>;
->>>>>>> feat/home-controller
   getRiderSubscriptions(
     userId: string,
     date: Date,

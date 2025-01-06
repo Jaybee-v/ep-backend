@@ -1,19 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-<<<<<<< HEAD
-import { IUserRepository } from 'src/domain/repositories/user.repository.interface';
-import { PrismaService } from '../prisma/prisma.service';
-import { FullStableOrInstructor, User } from 'src/domain/entities/user.entity';
-import { UserMapper } from '../mappers/user.mapper';
-import { GetBookingByUserIdHandler } from 'src/application/booking/queries/get-booking-by-user-id/get-booking-by-user-id.handler';
-import { GetDayBookingsByUserIdHandler } from 'src/application/booking/queries/get-day-bookings-by-user-id/get-day-bookings-by-user-id.handler';
-=======
 import { GetBookingByUserIdHandler } from 'src/application/booking/queries/get-booking-by-user-id/get-booking-by-user-id.handler';
 import { GetDayBookingsByUserIdHandler } from 'src/application/booking/queries/get-day-bookings-by-user-id/get-day-bookings-by-user-id.handler';
 import { FullStableOrInstructor, User } from 'src/domain/entities/user.entity';
 import { IUserRepository } from 'src/domain/repositories/user.repository.interface';
 import { UserMapper } from '../mappers/user.mapper';
 import { PrismaService } from '../prisma/prisma.service';
->>>>>>> feat/home-controller
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -191,8 +182,6 @@ export class UserRepository implements IUserRepository {
     );
   }
 
-<<<<<<< HEAD
-=======
   async getRidersCountByUserId(userId: string): Promise<number> {
     return this.prisma.user.count({
       where: {
@@ -209,14 +198,11 @@ export class UserRepository implements IUserRepository {
     });
   }
 
->>>>>>> feat/home-controller
   async patchUser(
     key: string,
     value: string | boolean,
     id: string,
   ): Promise<boolean> {
-<<<<<<< HEAD
-=======
     if (key === 'lastSeen') {
       const result = await this.prisma.user.update({
         where: { id },
@@ -228,7 +214,6 @@ export class UserRepository implements IUserRepository {
       return !!result;
     }
 
->>>>>>> feat/home-controller
     const result = await this.prisma.user.update({
       where: { id },
       data: {

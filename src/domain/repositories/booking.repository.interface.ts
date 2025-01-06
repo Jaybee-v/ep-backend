@@ -5,11 +5,8 @@ export interface IBookingRepository {
   findByUserId(userId: string): Promise<Booking[]>;
   findById(id: number): Promise<Booking | null>;
   findByDateRange(userId: string, start: Date, end: Date): Promise<Booking[]>;
-<<<<<<< HEAD
-=======
   getBookingsCountThisWeek(userId: string): Promise<number>;
   getBookingsThisWeek(userId: string): Promise<Booking[]>;
->>>>>>> feat/home-controller
   updateBooking(id: number, data: Booking): Promise<Booking>;
   updateBookingStatus(id: number, status: string): Promise<Booking>;
 }

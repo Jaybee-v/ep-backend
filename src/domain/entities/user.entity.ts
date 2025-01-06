@@ -22,10 +22,7 @@ export class User {
 
     private readonly createdAt: Date,
     private readonly updatedAt: Date,
-<<<<<<< HEAD
-=======
     private readonly lastSeen: Date,
->>>>>>> feat/home-controller
   ) {
     this.validateEmail(email);
     this.validateRole();
@@ -88,13 +85,10 @@ export class User {
     return this.updatedAt;
   }
 
-<<<<<<< HEAD
-=======
   public getLastSeen(): Date {
     return this.lastSeen;
   }
 
->>>>>>> feat/home-controller
   private validateEmail(email: string): void {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -131,10 +125,7 @@ export class User {
         params.instructorId || null,
         new Date(),
         new Date(),
-<<<<<<< HEAD
-=======
         new Date(),
->>>>>>> feat/home-controller
       );
     }
 
@@ -151,10 +142,7 @@ export class User {
       null,
       new Date(),
       new Date(),
-<<<<<<< HEAD
-=======
       new Date(),
->>>>>>> feat/home-controller
     );
   }
 }
@@ -171,10 +159,7 @@ export class FullStableOrInstructor {
   bookings: Booking[];
   createdAt: Date;
   updatedAt: Date;
-<<<<<<< HEAD
-=======
   lastSeen: Date;
->>>>>>> feat/home-controller
 }
 
 export type UserResponse = {
@@ -188,8 +173,5 @@ export type UserResponse = {
   instructorId: string;
   createdAt: Date;
   updatedAt: Date;
-<<<<<<< HEAD
-=======
   lastSeen: Date;
->>>>>>> feat/home-controller
 };
