@@ -17,10 +17,13 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
+<<<<<<< HEAD
+=======
   },
   "watchOptions": {
     "watchFile": "dynamicPriorityPolling",
     "watchDirectory": "dynamicPriorityPolling",
     "excludeDirectories": ["**/node_modules", "dist"]
+>>>>>>> feat/home-controller
   }
 }

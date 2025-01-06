@@ -3,11 +3,14 @@
 /node_modules
 /build
 
+<<<<<<< HEAD
+=======
 Dockerfile
 Dockerfile.prod
 docker-compose.yml
 docker-compose.prod.yml
 
+>>>>>>> feat/home-controller
 # Logs
 logs
 *.log

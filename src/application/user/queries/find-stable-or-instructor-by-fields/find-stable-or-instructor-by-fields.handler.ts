@@ -1,7 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
+<<<<<<< HEAD
+import { IUserRepository } from 'src/domain/repositories/user.repository.interface';
+import { FindStableOrInstructorByFieldsQuery } from './find-stable-or-instructor-by-fields.query';
+import { User } from '@prisma/client';
+import { UserResponse } from 'src/domain/entities/user.entity';
+=======
 import { UserResponse } from 'src/domain/entities/user.entity';
 import { IUserRepository } from 'src/domain/repositories/user.repository.interface';
 import { FindStableOrInstructorByFieldsQuery } from './find-stable-or-instructor-by-fields.query';
+>>>>>>> feat/home-controller
 
 @Injectable()
 export class FindStableOrInstructorByFieldsHandler {
@@ -39,7 +46,10 @@ export class FindStableOrInstructorByFieldsHandler {
         instructorId: user.getInstructorId(),
         createdAt: user.getCreatedAt(),
         updatedAt: user.getUpdatedAt(),
+<<<<<<< HEAD
+=======
         lastSeen: user.getLastSeen(),
+>>>>>>> feat/home-controller
       })),
     };
   }
