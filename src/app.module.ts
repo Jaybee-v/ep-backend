@@ -7,6 +7,7 @@ import { RevokeTokenHandler } from './application/auth/commands/revoke-token/rev
 import { CreateBookingSubscriptionHandler } from './application/booking-subscription/commands/create-booking-subscription/create-booking-subscription.handler';
 import { GetAllRiderSubHandler } from './application/booking-subscription/queries/get-all-riders-sub/get-all-rider-sub.handler';
 import { GetBookingSubscriptionsByBookingIdHandler } from './application/booking-subscription/queries/get-by-booking-id/get-by-booking-id.handler';
+import { GetRiderMonthlySubscriptionsCountHandler } from './application/booking-subscription/queries/get-rider-monthly-subscriptions-count/get-rider-monthly-subscriptions-count.handler';
 import { GetRiderSubscriptionsHandler } from './application/booking-subscription/queries/get-rider-subscriptions/get-rider-subscriptions.handler';
 import { GetSubscriptionsCountThisWeekByUserIdHandler } from './application/booking-subscription/queries/get-subscriptions-count-this-week-by-user-id/get-subscriptions-count-this-week-by-user-id.handler';
 import { GetUserAndSubByBookingIdHandler } from './application/booking-subscription/queries/get-user-and-sub-by-booking-id/get-user-and-sub-by-booking-id.handler';
@@ -92,6 +93,7 @@ import { EmailModule } from './presentation/module/email.module';
     GetRidersCountByUserIdHandler,
     GetWeekFillingRateHandler,
     GetSubscriptionsCountThisWeekByUserIdHandler,
+    GetRiderMonthlySubscriptionsCountHandler,
     // Patch Use Cases
     PatchUserHandler,
     UpdateBookingHandler,

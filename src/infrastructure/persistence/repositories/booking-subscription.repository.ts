@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BookingSubscription } from 'src/domain/entities/booking-subscription.entity';
 import { BookingStatus } from 'src/domain/entities/booking.entity';
 import { IBookingSubscriptionRepository } from 'src/domain/repositories/booking-subscription.interface';
+import { MonthDateCalculator } from 'src/domain/shared/utils/MonthDateCalculator';
 import { WeekDateCalculator } from 'src/domain/shared/utils/WeekDateCalculator';
 import { BookingSubscriptionMapper } from '../mappers/booking-subscription.mapper';
 import { PrismaService } from '../prisma/prisma.service';
@@ -89,6 +90,20 @@ export class BookingSubscriptionRepository
     console.log('========');
     console.log(subscriptions);
     console.log('========');
+    return subscriptions;
+  }
+
+  async getRiderMonthlySubscriptionsCount(userId: string): Promise<number> {
+    const monthRange = MonthDateCalculator.getCurrentMonthRange();
+    const subscriptions = await this.prisma.bookingSubscription.count({
+      where: {
+        userId,
+        booking: {
+          date: { gte: monthRange.getStart(), lte: monthRange.getEnd() },
+          status: BookingStatus.COMPLETED,
+        },
+      },
+    });
     return subscriptions;
   }
 }
