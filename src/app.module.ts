@@ -9,6 +9,9 @@ import { GetAllRiderSubHandler } from './application/booking-subscription/querie
 import { GetBookingSubscriptionsByBookingIdHandler } from './application/booking-subscription/queries/get-by-booking-id/get-by-booking-id.handler';
 import { GetRiderMonthlySubscriptionsCountHandler } from './application/booking-subscription/queries/get-rider-monthly-subscriptions-count/get-rider-monthly-subscriptions-count.handler';
 import { GetRiderSubscriptionsHandler } from './application/booking-subscription/queries/get-rider-subscriptions/get-rider-subscriptions.handler';
+import { GetRiderTotalSubscriptionsCountHandler } from './application/booking-subscription/queries/get-rider-total-subscriptions-count/get-rider-total-subscriptions-count.handler';
+import { GetRiderWaitingSubscriptionsCountHandler } from './application/booking-subscription/queries/get-rider-waiting-subscriptions-count/get-rider-waiting-subscriptions-count.handler';
+import { GetRiderWeeklySubscriptionsCountHandler } from './application/booking-subscription/queries/get-rider-weekly-subscriptions-count/get-rider-weekly-subscriptions-count.handler';
 import { GetSubscriptionsCountThisWeekByUserIdHandler } from './application/booking-subscription/queries/get-subscriptions-count-this-week-by-user-id/get-subscriptions-count-this-week-by-user-id.handler';
 import { GetUserAndSubByBookingIdHandler } from './application/booking-subscription/queries/get-user-and-sub-by-booking-id/get-user-and-sub-by-booking-id.handler';
 import { GetUserSubscriptionOnBookingHandler } from './application/booking-subscription/queries/get-user-sub-on-booking/get-user-sub-on-booking.handler';
@@ -42,6 +45,7 @@ import { AuthController } from './presentation/controllers/auth.controller';
 import { BookingSubscriptionController } from './presentation/controllers/booking-subscription.controller';
 import { BookingController } from './presentation/controllers/booking.controller';
 import { HomepageController } from './presentation/controllers/homepage.controller';
+import { LessonController } from './presentation/controllers/lesson.controller';
 import { PricingController } from './presentation/controllers/pricing.controller';
 import { UserController } from './presentation/controllers/user.controller';
 import { EmailModule } from './presentation/module/email.module';
@@ -63,6 +67,7 @@ import { EmailModule } from './presentation/module/email.module';
     PricingController,
     BookingSubscriptionController,
     HomepageController,
+    LessonController,
   ],
   providers: [
     // Create Use Cases
@@ -94,6 +99,9 @@ import { EmailModule } from './presentation/module/email.module';
     GetWeekFillingRateHandler,
     GetSubscriptionsCountThisWeekByUserIdHandler,
     GetRiderMonthlySubscriptionsCountHandler,
+    GetRiderWeeklySubscriptionsCountHandler,
+    GetRiderTotalSubscriptionsCountHandler,
+    GetRiderWaitingSubscriptionsCountHandler,
     // Patch Use Cases
     PatchUserHandler,
     UpdateBookingHandler,

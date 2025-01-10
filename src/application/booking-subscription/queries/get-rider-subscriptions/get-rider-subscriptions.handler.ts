@@ -1,7 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IBookingSubscriptionRepository } from 'src/domain/repositories/booking-subscription.interface';
-import { GetRiderSubscriptionsQuery } from './get-rider-subscriptions.query';
 import { BookingSubscription } from 'src/domain/entities/booking-subscription.entity';
+import { IBookingSubscriptionRepository } from 'src/domain/repositories/booking-subscription.interface';
+import { MonthDateCalculator } from 'src/domain/shared/utils/MonthDateCalculator';
+import { WeekDateCalculator } from 'src/domain/shared/utils/WeekDateCalculator';
+import { YearDateCalculator } from 'src/domain/shared/utils/YearDateCalculator';
+import { GetRiderSubscriptionsQuery } from './get-rider-subscriptions.query';
 
 @Injectable()
 export class GetRiderSubscriptionsHandler {
@@ -16,15 +19,16 @@ export class GetRiderSubscriptionsHandler {
     let startDate: Date;
 
     if (query.date === 'WEEK') {
-      startDate = new Date(new Date().setDate(new Date().getDate() - 7));
+      const weekRange = WeekDateCalculator.getCurrentWeekRange();
+      startDate = weekRange.getStart();
     }
     if (query.date === 'MONTH') {
-      startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+      const monthRange = MonthDateCalculator.getCurrentMonthRange();
+      startDate = monthRange.getStart();
     }
     if (query.date === 'YEAR') {
-      startDate = new Date(
-        new Date().setFullYear(new Date().getFullYear() - 1),
-      );
+      const yearRange = YearDateCalculator.getCurrentYearRange();
+      startDate = yearRange.getStart();
     }
 
     return await this.bookingSubscriptionRepository.getRiderSubscriptions(

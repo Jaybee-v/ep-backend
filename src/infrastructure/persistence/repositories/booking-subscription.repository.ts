@@ -106,4 +106,41 @@ export class BookingSubscriptionRepository
     });
     return subscriptions;
   }
+
+  async getRiderWeeklySubscriptionsCount(userId: string): Promise<number> {
+    const weekRange = WeekDateCalculator.getCurrentWeekRange();
+    const subscriptions = await this.prisma.bookingSubscription.count({
+      where: {
+        userId,
+        booking: {
+          date: { gte: weekRange.getStart(), lte: weekRange.getEnd() },
+          status: BookingStatus.COMPLETED,
+        },
+      },
+    });
+    return subscriptions;
+  }
+
+  async getRiderTotalSubscriptionsCount(userId: string): Promise<number> {
+    const subscriptions = await this.prisma.bookingSubscription.count({
+      where: {
+        userId,
+      },
+    });
+    return subscriptions;
+  }
+
+  async getRiderWaitingSubscriptionsCount(userId: string): Promise<number> {
+    const subscriptions = await this.prisma.bookingSubscription.count({
+      where: {
+        userId,
+        booking: {
+          NOT: {
+            status: BookingStatus.COMPLETED,
+          },
+        },
+      },
+    });
+    return subscriptions;
+  }
 }
